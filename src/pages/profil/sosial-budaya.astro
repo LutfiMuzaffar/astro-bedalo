@@ -1,0 +1,74 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import Button from '@components/ui/Button.astro';
+import { IMG_GROUP_PORTRAIT, IMG_VILLAGE_AERIAL, IMG_HANDICRAFT } from '@lib/images';
+
+const activities = [
+  { span: 'md:col-span-2', img: IMG_GROUP_PORTRAIT, title: 'Yasinan & Tahlil', body: 'Tradisi spiritual mingguan yang mempererat tali silaturahmi antar warga dusun.' },
+  { span: '', img: IMG_VILLAGE_AERIAL, title: 'TPQ Anak', body: 'Pendidikan agama untuk anak-anak setiap sore di Musholla Al-Hidayah.', light: true },
+  { span: '', img: IMG_HANDICRAFT, title: 'Karang Taruna', body: 'Penggerak kegiatan pemuda, kesenian, dan pengelolaan wisata pantai.', light: true },
+  { span: 'md:col-span-2', img: IMG_GROUP_PORTRAIT, title: 'Rasulan', body: 'Upacara adat tahunan ungkapan rasa syukur masyarakat agraris-pesisir Bedalo.' },
+];
+
+const traditions = [
+  { icon: 'temple_buddhist', title: 'Rasulan & Wiwitan', body: 'Tradisi tahunan ungkapan rasa syukur atas hasil bumi dan laut.' },
+  { icon: 'volunteer_activism', title: 'Gotong Royong', body: 'Kegiatan kerja bakti rutin yang melibatkan seluruh warga dusun.' },
+  { icon: 'theater_comedy', title: 'Kesenian Tradisional', body: 'Reog, jathilan, dan campursari yang dipentaskan pada hajatan dan rasulan.' },
+  { icon: 'mosque', title: 'Yasinan & Tahlil', body: 'Pengajian mingguan yang menjadi rekat sosial dan rohani warga.' },
+];
+---
+<PublicLayout title="Sosial, Agama & Budaya - Dusun Bedalo" active="profil" mainClass="flex-grow pt-28 pb-section-gap overflow-hidden">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+    <div class="grid md:grid-cols-2 gap-gutter items-center">
+      <div class="space-y-6">
+        <span class="inline-block bg-primary-container/10 text-primary-container font-label-caps text-label-caps px-3 py-1.5 rounded-[8px]">
+          PROFIL MASYARAKAT
+        </span>
+        <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">
+          Modal Sosial, Agama, dan Budaya
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Dusun Bedalo hidup dalam harmoni yang erat, di mana nilai-nilai sosial, religius, dan budaya lokal mengakar kuat sebagai "Modal Sosial" yang menyatukan masyarakat dalam semangat gotong royong.
+        </p>
+        <Button variant="primary" size="lg" href="/potensi/seni-budaya">Lihat Potensi Seni Budaya</Button>
+      </div>
+      <div class="relative h-[400px] md:h-[500px] rounded-[24px] overflow-hidden ambient-shadow">
+        <img class="absolute inset-0 w-full h-full object-cover" src={IMG_GROUP_PORTRAIT} alt="Pertemuan komunitas warga Bedalo." />
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-12 text-center">Kegiatan Rutin Masyarakat</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+      {activities.map((a) => (
+        <div class={`relative rounded-[24px] overflow-hidden group ambient-shadow ${a.span}`}>
+          <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={a.img} alt={a.title} />
+          <div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 via-on-surface/40 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 p-8 w-full">
+            <h3 class="font-headline-sm text-headline-sm text-surface-container-lowest mb-2">{a.title}</h3>
+            <p class="font-body-md text-body-md text-surface-container-lowest/80 line-clamp-2">{a.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="py-section-gap bg-surface-container-low relative overflow-hidden">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-8 text-center">Kisah Tradisi Kita</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+        {traditions.map((t) => (
+          <div class="bg-surface-container-lowest rounded-[24px] p-6 ambient-shadow border border-surface-variant/40 space-y-4">
+            <div class="w-12 h-12 rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+              <Icon name={t.icon} filled />
+            </div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">{t.title}</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">{t.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</PublicLayout>

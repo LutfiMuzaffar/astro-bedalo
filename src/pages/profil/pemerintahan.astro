@@ -1,38 +1,110 @@
 ---
 import { getCollection } from 'astro:content';
 import PublicLayout from '@layouts/PublicLayout.astro';
-import Breadcrumb from '@components/ui/Breadcrumb.astro';
-import PersonCard from '@components/cards/PersonCard.astro';
+import Icon from '@components/ui/Icon.astro';
+import Button from '@components/ui/Button.astro';
 
 const pemerintahan = (await getCollection('pemerintahan')).sort((a, b) => a.data.order - b.data.order);
+const dukuh = pemerintahan[0];
+
+const lembaga = [
+  { icon: 'groups', bg: 'bg-secondary-container', color: 'text-on-secondary-container', title: 'Karang Taruna', body: 'Wadah pengembangan generasi muda yang tumbuh dan berkembang atas dasar kesadaran dan tanggung jawab sosial.' },
+  { icon: 'health_and_safety', bg: 'bg-error-container', color: 'text-on-error-container', title: 'Posyandu', body: 'Pusat kegiatan masyarakat dalam upaya pelayanan kesehatan dan keluarga berencana.' },
+  { icon: 'school', bg: 'bg-tertiary-fixed', color: 'text-on-tertiary-fixed', title: 'PAUD & TPQ', body: 'Pendidikan usia dini dan pendidikan Al-Quran untuk menanamkan nilai moral dan agama sejak dini.' },
+];
+
+const announcements = [
+  { tag: 'EDARAN', tagBg: 'bg-primary-fixed', tagColor: 'text-primary', body: 'Kerja Bakti Bersama Persiapan Musim Penghujan di area RT 01 dan RT 02.', date: '12 Okt 2024' },
+  { tag: 'INFO', tagBg: 'bg-tertiary-fixed', tagColor: 'text-tertiary', body: 'Jadwal Posyandu Balita bulan ini dimajukan menjadi tanggal 15.', date: '10 Okt 2024' },
+];
 ---
-<PublicLayout title="Pemerintahan Dusun - Dusun Bedalo" active="profil">
-  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
-    <Breadcrumb
-      class="mb-6"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Profil', href: '/profil' },
-        { label: 'Pemerintahan' },
-      ]}
-    />
-    <header class="max-w-3xl space-y-4 mb-12">
-      <p class="font-label-caps text-label-caps text-primary">STRUKTUR ORGANISASI</p>
-      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Pemerintahan Dusun Bedalo</h1>
-      <p class="font-body-lg text-body-lg text-on-surface-variant">
-        Aparat dusun yang bertugas membantu pelayanan administrasi dan pembangunan untuk warga Bedalo.
+<PublicLayout title="Pemerintahan Dusun - Dusun Bedalo" active="profil" mainClass="pt-32 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-section-gap overflow-hidden">
+  <header class="text-center max-w-3xl mx-auto mt-8">
+    <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">
+      Pemerintahan Dusun
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant">
+      Struktur organisasi dan lembaga kemasyarakatan yang berdedikasi untuk melayani dan memajukan warga Dusun Bedalo.
+    </p>
+  </header>
+
+  <section>
+    <div class="text-center mb-16">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Struktur Organisasi</h2>
+      <div class="h-1 w-16 bg-primary-fixed mx-auto rounded-full"></div>
+    </div>
+    <div class="relative flex flex-col items-center">
+      <div class="bg-surface-container-lowest ambient-shadow rounded-[24px] p-8 w-full max-w-md text-center z-10 border border-surface-container/50">
+        <div class="w-24 h-24 rounded-full bg-primary-fixed mx-auto mb-4 flex items-center justify-center">
+          <Icon name="person" filled class="text-4xl text-primary" />
+        </div>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">{dukuh ? dukuh.data.name : 'Bapak Dukuh'}</h3>
+        <p class="text-on-surface-variant mt-1">Kepala Dusun Bedalo</p>
+      </div>
+      <div class="w-px h-16 bg-outline-variant/50 hidden md:block"></div>
+      <div class="bg-surface-container-lowest ambient-shadow rounded-[24px] p-6 w-full max-w-sm text-center z-10 border border-surface-container/50 mt-4 md:mt-0">
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">Ketua RW</h3>
+        <p class="text-on-surface-variant mt-1">Rukun Warga</p>
+      </div>
+      <div class="w-px h-16 bg-outline-variant/50 hidden md:block"></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full mt-8">
+        {[1, 2, 3].map((n) => (
+          <div class="bg-surface-container-low ambient-shadow rounded-[24px] p-6 text-center hover:-translate-y-1 transition-transform duration-300">
+            <h4 class="font-headline-sm text-headline-sm text-primary mb-2">RT 0{n}</h4>
+            <p class="text-on-surface-variant text-sm">Rukun Tetangga 0{n}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="text-center mb-16">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Lembaga Kemasyarakatan</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
+        Mitra pemerintah dusun dalam membangun dan memberdayakan masyarakat Bedalo.
       </p>
-    </header>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-      {pemerintahan.map((p) => (
-        <PersonCard
-          name={p.data.name}
-          role={p.data.role}
-          photo={p.data.photo}
-          photoAlt={p.data.photoAlt}
-          bio={p.data.bio}
-        />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {lembaga.map((l) => (
+        <div class="bg-surface-container-lowest ambient-shadow rounded-[24px] p-8 flex flex-col items-start hover:-translate-y-1 transition-transform duration-300 border border-surface-container/30">
+          <div class={`w-12 h-12 rounded-full ${l.bg} ${l.color} flex items-center justify-center mb-6`}>
+            <Icon name={l.icon} filled />
+          </div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">{l.title}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">{l.body}</p>
+        </div>
       ))}
     </div>
-  </div>
+  </section>
+
+  <section class="bg-surface-container-low rounded-[32px] p-8 md:p-12 ambient-shadow">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-6">Layanan Informasi Warga</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-8">
+          Pusat layanan cepat tanggap untuk kebutuhan administrasi dan informasi warga Dusun Bedalo. Hubungi kami melalui kanal resmi berikut.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <Button variant="primary" size="lg" href="/kontak" icon="forum">WhatsApp</Button>
+          <Button variant="ghost" size="lg" href="/kontak" icon="mail">Email</Button>
+        </div>
+      </div>
+      <div class="bg-surface-container-lowest rounded-[24px] p-8 border-l-4 border-primary ambient-shadow">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="campaign" filled class="text-primary" />
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Pengumuman Terbaru</h3>
+        </div>
+        <div class="space-y-4">
+          {announcements.map((a, i) => (
+            <div class={i < announcements.length - 1 ? 'border-b border-surface-container pb-4' : ''}>
+              <span class={`font-label-caps text-label-caps ${a.tagColor} ${a.tagBg} px-2 py-1 rounded-md inline-block mb-2`}>{a.tag}</span>
+              <p class="font-body-md text-body-md text-on-surface">{a.body}</p>
+              <span class="text-sm text-on-surface-variant mt-2 inline-block">{a.date}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 </PublicLayout>

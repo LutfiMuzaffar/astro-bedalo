@@ -1,0 +1,71 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import { IMG_COASTAL_AERIAL } from '@lib/images';
+
+const boundaries = [
+  { dir: 'UTARA', icon: 'north', name: 'Padukuhan Bibis' },
+  { dir: 'TIMUR', icon: 'east', name: 'Padukuhan Klumpit' },
+  { dir: 'BARAT', icon: 'west', name: 'Padukuhan Karanggunung' },
+  { dir: 'SELATAN', icon: 'south', name: 'Samudera Hindia', sea: true },
+];
+---
+<PublicLayout title="Letak Geografis - Dusun Bedalo" active="profil" mainClass="pt-[100px] pb-section-gap flex flex-col gap-section-gap overflow-hidden">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full">
+    <div class="flex flex-col items-start gap-gutter mb-12">
+      <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-secondary-fixed">
+        Letak Geografis
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">
+        Dusun Bedalo terletak di kawasan pesisir Kabupaten Gunungkidul, sebuah hamparan yang menghubungkan perbukitan kapur dengan luasnya Samudera Hindia. Posisinya yang strategis menjadikan desa ini kaya akan potensi maritim dan agraris.
+      </p>
+    </div>
+    <div class="w-full h-[512px] md:h-[716px] rounded-[24px] overflow-hidden relative shadow-[0_8px_30px_-4px_rgba(2,62,138,0.12)]">
+      <img class="w-full h-full object-cover" src={IMG_COASTAL_AERIAL} alt="Bentang udara pesisir Bedalo: bukit kapur bertemu Samudera Hindia." />
+      <div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/50 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12">
+        <span class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full font-label-caps text-label-caps shadow-sm">
+          Kawasan Pesisir Selatan
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-surface-container-lowest py-section-gap">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full">
+      <div class="mb-12">
+        <h2 class="font-headline-md text-headline-md text-primary mb-4">Batas Wilayah</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Memetakan ruang hidup Dusun Bedalo yang berbatasan langsung dengan peradaban tetangga dan bentang alam lautan.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+        {boundaries.map((b) => (
+          <div class={`bg-surface p-8 rounded-[24px] shadow-[0_4px_20px_-4px_rgba(2,62,138,0.05)] border border-surface-container-highest transition-all duration-300 hover:-translate-y-1 ${b.sea ? 'relative overflow-hidden' : ''}`}>
+            {b.sea && (
+              <div class="absolute -bottom-10 -right-10 text-primary-fixed/20">
+                <Icon name="water" size={120} />
+              </div>
+            )}
+            <div class={`w-12 h-12 ${b.sea ? 'bg-secondary-fixed/50' : 'bg-primary-fixed/30'} rounded-full flex items-center justify-center mb-6 ${b.sea ? 'text-secondary' : 'text-primary'} relative z-10`}>
+              <Icon name={b.icon} />
+            </div>
+            <p class="font-label-caps text-label-caps text-on-surface-variant mb-2 relative z-10">{b.dir}</p>
+            <h3 class={`font-headline-sm text-headline-sm relative z-10 ${b.sea ? 'text-secondary' : 'text-on-surface'}`}>{b.name}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full">
+    <div class="bg-primary text-on-primary rounded-[32px] p-10 md:p-16 relative overflow-hidden">
+      <div class="max-w-3xl space-y-6 relative z-10">
+        <h2 class="font-headline-md text-headline-md mb-4 text-on-primary">Dari Bukit ke Samudera</h2>
+        <p class="font-body-lg text-body-lg opacity-95">
+          Topografi Dusun Bedalo membentang dari perbukitan karst di utara, lahan datar agraris di tengah, hingga pesisir berbatu dan pantai-pantai berpasir di selatan. Variasi ini melahirkan ekosistem mata pencaharian yang beragam — petani, peternak, pengrajin, dan nelayan tinggal berdampingan.
+        </p>
+      </div>
+    </div>
+  </section>
+</PublicLayout>
