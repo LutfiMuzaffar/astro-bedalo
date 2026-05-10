@@ -1,0 +1,106 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import MasonryGallery from '@components/sections/MasonryGallery.astro';
+import { formatLong } from '@lib/date';
+
+export async function getStaticPaths() {
+  const items = await getCollection('kkn-proker');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'kkn-proker'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+<PublicLayout title={`${item.data.title} - Program Kerja KKN`} description={item.data.summary} ogImage={item.data.cover} active="kkn">
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'KKN', href: '/kkn' },
+        { label: 'Program Kerja', href: '/kkn/program-kerja' },
+        { label: item.data.title },
+      ]}
+    />
+    <header class="space-y-4 mb-8">
+      <p class="font-label-caps text-label-caps text-primary">KELOMPOK {item.data.kelompok} · {item.data.angkatan}</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.title}</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">{item.data.summary}</p>
+    </header>
+    <div class="aspect-[16/9] overflow-hidden rounded-[24px] mb-8">
+      <img src={item.data.cover} alt={item.data.coverAlt} class="w-full h-full object-cover" />
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 mb-8">
+      <div class="bg-surface-container-lowest rounded-[24px] p-6">
+        <p class="font-label-caps text-on-surface-variant">PERIODE</p>
+        <p class="font-body-md text-on-surface">{item.data.period}</p>
+      </div>
+      {item.data.pic && (
+        <div class="bg-surface-container-lowest rounded-[24px] p-6">
+          <p class="font-label-caps text-on-surface-variant">PIC PROGRAM</p>
+          <p class="font-body-md text-on-surface">{item.data.pic}</p>
+        </div>
+      )}
+    </div>
+
+    {item.data.objectives.length > 0 && (
+      <div class="bg-surface-container-lowest rounded-[24px] p-6 mb-6 space-y-3">
+        <h3 class="font-headline-sm text-headline-sm">Tujuan Program</h3>
+        <ul class="space-y-2">
+          {item.data.objectives.map((o) => (
+            <li class="flex items-start gap-3"><Icon name="check_circle" class="text-primary mt-1" /><span class="text-body-md text-on-surface-variant">{o}</span></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {item.data.deliverables.length > 0 && (
+      <div class="bg-surface-container-lowest rounded-[24px] p-6 mb-8 space-y-3">
+        <h3 class="font-headline-sm text-headline-sm">Capaian / Deliverable</h3>
+        <ul class="space-y-2">
+          {item.data.deliverables.map((d) => (
+            <li class="flex items-start gap-3"><Icon name="emoji_events" class="text-tertiary mt-1" /><span class="text-body-md text-on-surface-variant">{d}</span></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="prose prose-lg max-w-none [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:mt-8 [&_h2]:mb-4 [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:text-on-surface-variant">
+      <Content />
+    </div>
+
+    {item.data.timeline.length > 0 && (
+      <section class="mt-12 space-y-4">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Timeline Pelaksanaan</h2>
+        <ol class="border-l-2 border-primary/30 pl-6 space-y-6">
+          {item.data.timeline.map((t) => (
+            <li class="relative">
+              <span class="absolute -left-[34px] top-1 w-4 h-4 rounded-full bg-primary"></span>
+              <p class="font-label-caps text-on-surface-variant">{formatLong(t.date)}</p>
+              <p class="font-bold text-on-surface">{t.title}</p>
+              {t.description && <p class="text-body-md text-on-surface-variant">{t.description}</p>}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {item.data.gallery.length > 0 && (
+      <section class="mt-section-gap">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-12">Galeri Program</h2>
+        <MasonryGallery photos={item.data.gallery.map((g) => ({ src: g.src, alt: g.alt }))} />
+      </section>
+    )}
+  </article>
+</PublicLayout>

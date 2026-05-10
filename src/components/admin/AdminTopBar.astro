@@ -1,0 +1,29 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  searchPlaceholder?: string;
+}
+
+const { searchPlaceholder = 'Cari pesan atau nama...' } = Astro.props;
+---
+<header class="h-[72px] bg-surface/80 backdrop-blur-md border-b border-surface-variant flex items-center justify-between px-8 sticky top-0 z-10">
+  <div class="flex-1 flex items-center max-w-md relative">
+    <span class="material-symbols-outlined absolute left-4 text-on-surface-variant">search</span>
+    <input
+      class="w-full pl-12 pr-4 py-2.5 rounded-full border-none bg-surface-container-low text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all font-body-md text-body-md"
+      placeholder={searchPlaceholder}
+      type="text"
+    />
+  </div>
+  <div class="flex items-center gap-4">
+    <button class="w-10 h-10 rounded-full hover:bg-surface-container-low flex items-center justify-center text-on-surface-variant relative" aria-label="Notifikasi">
+      <Icon name="notifications" />
+      <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface"></span>
+    </button>
+    <button class="px-6 py-2.5 bg-primary text-on-primary rounded-full font-body-md text-body-md font-medium hover:bg-surface-tint transition-colors flex items-center gap-2">
+      <Icon name="download" size={20} />
+      Export
+    </button>
+  </div>
+</header>

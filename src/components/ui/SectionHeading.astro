@@ -1,0 +1,27 @@
+---
+interface Props {
+  level?: 2 | 3;
+  align?: 'left' | 'center';
+  eyebrow?: string;
+  accent?: boolean;
+  class?: string;
+}
+
+const { level = 2, align = 'center', eyebrow, accent = true, class: className = '' } = Astro.props;
+const Tag = `h${level}` as 'h2' | 'h3';
+const headingSizeClass =
+  level === 2
+    ? 'font-headline-md text-headline-md'
+    : 'font-headline-sm text-headline-sm';
+const alignClass = align === 'center' ? 'text-center' : 'text-left';
+const accentAlignClass = align === 'center' ? 'mx-auto' : '';
+---
+<div class={`mb-16 ${alignClass} ${className}`.trim()}>
+  {eyebrow && (
+    <p class="font-label-caps text-label-caps text-primary mb-2">{eyebrow}</p>
+  )}
+  <Tag class={`${headingSizeClass} text-on-surface mb-4`}>
+    <slot />
+  </Tag>
+  {accent && <div class={`w-24 h-1 bg-primary rounded-full ${accentAlignClass}`}></div>}
+</div>

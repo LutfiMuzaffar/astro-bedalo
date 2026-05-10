@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  photo: string;
+  photoAlt: string;
+  bio?: string;
+  fakultas?: string;
+  class?: string;
+}
+
+const { name, role, photo, photoAlt, bio, fakultas, class: className = '' } = Astro.props;
+---
+<article class={`bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow ${className}`.trim()}>
+  <div class="aspect-[3/4] overflow-hidden">
+    <img class="w-full h-full object-cover" src={photo} alt={photoAlt} loading="lazy" />
+  </div>
+  <div class="p-6 space-y-2 text-center">
+    <h4 class="font-headline-sm text-headline-sm text-on-surface">{name}</h4>
+    <p class="text-primary font-label-caps text-label-caps">{role}</p>
+    {fakultas && <p class="text-on-surface-variant text-body-md">{fakultas}</p>}
+    {bio && <p class="text-on-surface-variant text-body-md mt-3 text-left">{bio}</p>}
+  </div>
+</article>

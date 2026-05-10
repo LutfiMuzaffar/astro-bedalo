@@ -1,0 +1,29 @@
+---
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  breadcrumbs?: Crumb[];
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, title, description, breadcrumbs, align = 'left' } = Astro.props;
+const alignClass = align === 'center' ? 'text-center mx-auto' : '';
+---
+<section class="pt-12 pb-16 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+  {breadcrumbs && breadcrumbs.length > 0 && (
+    <Breadcrumb items={breadcrumbs} class="mb-6" />
+  )}
+  <div class={`max-w-3xl space-y-4 ${alignClass}`.trim()}>
+    {eyebrow && <p class="font-label-caps text-label-caps text-primary">{eyebrow}</p>}
+    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{title}</h1>
+    {description && <p class="font-body-lg text-body-lg text-on-surface-variant">{description}</p>}
+  </div>
+</section>

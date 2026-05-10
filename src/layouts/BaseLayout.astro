@@ -1,0 +1,151 @@
+---
+import '@styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+  ogImage?: string;
+  lang?: string;
+}
+
+const {
+  title,
+  description = 'Dusun Bedalo - Keharmonisan Pesisir & Tradisi di Krambilsawit, Saptosari, Gunungkidul.',
+  bodyClass = 'bg-background text-on-surface font-body-md topo-bg',
+  ogImage,
+  lang = 'id',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+<!DOCTYPE html>
+<html class="light" lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    {/*
+      Tailwind CDN + Coastal Heritage System config. Lifted verbatim from the
+      original `code.html` files so every utility class (font-display-lg,
+      px-margin-desktop, mt-section-gap, bg-on-secondary-container, ...)
+      resolves to the same value as the source. Do not reorder these scripts.
+    */}
+    <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script is:inline>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#001d32',
+              'tertiary-container': '#a95f00',
+              'on-tertiary-container': '#fff6f1',
+              'surface-variant': '#e0e2e8',
+              'inverse-primary': '#94ccff',
+              'on-secondary-container': '#033e8a',
+              'on-surface': '#181c20',
+              'surface-container-low': '#f1f4f9',
+              'surface-container': '#ebeef4',
+              'on-tertiary-fixed': '#2e1600',
+              'inverse-on-surface': '#eef1f6',
+              error: '#ba1a1a',
+              'on-secondary-fixed': '#001a42',
+              'error-container': '#ffdad6',
+              'on-primary-container': '#f3f7ff',
+              'on-secondary': '#ffffff',
+              'secondary-fixed-dim': '#aec6ff',
+              'surface-bright': '#f7f9ff',
+              surface: '#f7f9ff',
+              'on-tertiary': '#ffffff',
+              'outline-variant': '#bfc7d1',
+              outline: '#707881',
+              'primary-container': '#0077b6',
+              'surface-dim': '#d7dae0',
+              'on-error': '#ffffff',
+              secondary: '#315ca9',
+              'secondary-container': '#86adff',
+              'primary-fixed-dim': '#94ccff',
+              'tertiary-fixed': '#ffdcc0',
+              background: '#f7f9ff',
+              primary: '#005d90',
+              'surface-container-lowest': '#ffffff',
+              'on-error-container': '#93000a',
+              'secondary-fixed': '#d8e2ff',
+              tertiary: '#864a00',
+              'tertiary-fixed-dim': '#ffb877',
+              'on-surface-variant': '#404850',
+              'on-primary': '#ffffff',
+              'on-background': '#181c20',
+              'inverse-surface': '#2d3135',
+              'surface-container-highest': '#e0e2e8',
+              'primary-fixed': '#cde5ff',
+              'surface-tint': '#006399',
+              'on-tertiary-fixed-variant': '#6c3a00',
+              'surface-container-high': '#e6e8ee',
+              'on-primary-fixed-variant': '#004b74',
+              'on-secondary-fixed-variant': '#0f4490',
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px',
+            },
+            spacing: {
+              'section-gap': '120px',
+              'margin-mobile': '20px',
+              unit: '8px',
+              gutter: '32px',
+              'container-max': '1280px',
+              'margin-desktop': '64px',
+            },
+            fontFamily: {
+              'headline-sm': ['Sora'],
+              'body-lg': ['Inter'],
+              'headline-md': ['Sora'],
+              'display-lg': ['Sora'],
+              'label-caps': ['Inter'],
+              'display-lg-mobile': ['Sora'],
+              'body-md': ['Inter'],
+            },
+            fontSize: {
+              'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '500' }],
+              'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+              'headline-md': ['32px', { lineHeight: '1.2', fontWeight: '500' }],
+              'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '600' }],
+              'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.1em', fontWeight: '700' }],
+              'display-lg-mobile': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+              'body-md': ['16px', { lineHeight: '1.5', fontWeight: '400' }],
+            },
+          },
+        },
+      };
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

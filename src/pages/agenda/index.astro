@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import AgendaCard from '@components/cards/AgendaCard.astro';
+import CategoryFilter from '@components/sections/CategoryFilter.astro';
+import { formatLong } from '@lib/date';
+
+const all = (await getCollection('agenda')).sort(
+  (a, b) => a.data.startsAt.getTime() - b.data.startsAt.getTime()
+);
+
+const upcoming = all.filter((a) => a.data.status !== 'past');
+const past = all.filter((a) => a.data.status === 'past');
+
+const categories = [
+  { key: 'semua', label: 'Semua', count: all.length },
+  { key: 'rapat', label: 'Rapat' },
+  { key: 'kegiatan', label: 'Kegiatan' },
+  { key: 'budaya', label: 'Budaya' },
+  { key: 'sosial', label: 'Sosial' },
+  { key: 'kkn', label: 'KKN' },
+];
+---
+<PublicLayout title="Agenda Dusun Bedalo" active="agenda-berita">
+  <PageHero
+    eyebrow="JADWAL DUSUN"
+    title="Agenda Dusun Bedalo"
+    description="Jadwal rapat, kegiatan, dan kegiatan sosial yang akan datang dan yang sudah berlalu."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Agenda' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-12">
+    <CategoryFilter items={categories} active="semua" baseHref="/agenda/kategori" />
+
+    {upcoming.length > 0 && (
+      <div class="space-y-6">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Akan Datang</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {upcoming.map((a) => (
+            <AgendaCard
+              href={`/agenda/${a.slug}`}
+              title={a.data.title}
+              excerpt={a.data.excerpt}
+              startsAt={a.data.startsAt}
+              endsAt={a.data.endsAt}
+              location={a.data.location}
+              category={a.data.category}
+              variant="horizontal"
+            />
+          ))}
+        </div>
+      </div>
+    )}
+
+    {past.length > 0 && (
+      <div class="space-y-6">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Telah Berlalu</h2>
+        <ul class="bg-surface-container-lowest rounded-[24px] divide-y divide-outline-variant/30">
+          {past.map((a) => (
+            <li>
+              <a href={`/agenda/${a.slug}`} class="flex items-start gap-4 px-6 py-5 hover:bg-surface-container-low transition-colors">
+                <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 text-on-surface-variant">
+                  <span class="material-symbols-outlined">event_available</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-body-md text-body-md font-bold text-on-surface">{a.data.title}</p>
+                  <p class="text-on-surface-variant text-label-caps mt-1">{formatLong(a.data.startsAt)} · {a.data.location}</p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
+</PublicLayout>

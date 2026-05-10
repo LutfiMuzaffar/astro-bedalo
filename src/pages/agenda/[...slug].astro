@@ -1,0 +1,89 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import { formatLong, formatTime } from '@lib/date';
+
+export async function getStaticPaths() {
+  const items = await getCollection('agenda');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'agenda'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const timeRange = item.data.endsAt
+  ? `${formatTime(item.data.startsAt)} – ${formatTime(item.data.endsAt)}`
+  : formatTime(item.data.startsAt);
+---
+<PublicLayout
+  title={`${item.data.title} - Agenda Dusun Bedalo`}
+  description={item.data.excerpt}
+  ogImage={item.data.cover}
+  active="agenda-berita"
+>
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Agenda', href: '/agenda' },
+        { label: item.data.title },
+      ]}
+    />
+    <header class="space-y-4 mb-8">
+      <span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed-variant px-4 py-1 rounded-full text-label-caps font-label-caps">
+        AGENDA · {item.data.category.toUpperCase()}
+      </span>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.title}</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">{item.data.excerpt}</p>
+    </header>
+    {item.data.cover && (
+      <div class="aspect-[16/9] overflow-hidden rounded-[24px] mb-8">
+        <img class="w-full h-full object-cover" src={item.data.cover} alt={item.data.coverAlt ?? item.data.title} />
+      </div>
+    )}
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 grid md:grid-cols-2 gap-4 mb-8">
+      <div class="flex items-start gap-3">
+        <Icon name="calendar_today" class="text-primary mt-1" />
+        <div>
+          <p class="font-label-caps text-on-surface-variant">TANGGAL</p>
+          <p class="font-body-md text-on-surface">{formatLong(item.data.startsAt)}</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <Icon name="schedule" class="text-primary mt-1" />
+        <div>
+          <p class="font-label-caps text-on-surface-variant">WAKTU</p>
+          <p class="font-body-md text-on-surface">{timeRange}</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        <Icon name="location_on" class="text-primary mt-1" />
+        <div>
+          <p class="font-label-caps text-on-surface-variant">LOKASI</p>
+          <p class="font-body-md text-on-surface">{item.data.location}</p>
+        </div>
+      </div>
+      {item.data.organizer && (
+        <div class="flex items-start gap-3">
+          <Icon name="groups" class="text-primary mt-1" />
+          <div>
+            <p class="font-label-caps text-on-surface-variant">PENYELENGGARA</p>
+            <p class="font-body-md text-on-surface">{item.data.organizer}</p>
+          </div>
+        </div>
+      )}
+    </div>
+    <div class="prose prose-lg max-w-none [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:mt-8 [&_h2]:mb-4 [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:text-on-surface-variant">
+      <Content />
+    </div>
+  </article>
+</PublicLayout>

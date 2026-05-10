@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import GaleriAlbumCard from '@components/cards/GaleriAlbumCard.astro';
+
+const albums = (await getCollection('galeri-album'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<PublicLayout title="Galeri Dusun Bedalo" active="galeri">
+  <PageHero
+    eyebrow="ALBUM FOTO"
+    title="Galeri Dusun Bedalo"
+    description="Album foto kegiatan, festival, dan keseharian warga Dusun Bedalo."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Galeri' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {albums.map((a) => (
+        <GaleriAlbumCard
+          href={`/galeri/${a.slug}`}
+          title={a.data.title}
+          subtitle={a.data.subtitle}
+          cover={a.data.cover}
+          coverAlt={a.data.coverAlt}
+          publishedAt={a.data.publishedAt}
+          photoCount={a.data.photos.length}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>

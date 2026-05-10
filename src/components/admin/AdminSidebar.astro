@@ -1,0 +1,68 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+type AdminKey =
+  | 'dashboard'
+  | 'kontak'
+  | 'agenda-berita'
+  | 'potensi'
+  | 'galeri'
+  | 'kkn'
+  | 'pengaturan';
+
+interface Props {
+  active?: AdminKey;
+}
+
+const { active = 'dashboard' } = Astro.props;
+
+const items: { key: AdminKey; label: string; icon: string; href: string }[] = [
+  { key: 'dashboard', label: 'Dashboard', icon: 'dashboard', href: '/admin' },
+  { key: 'kontak', label: 'Kontak & Aspirasi', icon: 'forum', href: '/admin/kontak-aspirasi' },
+  { key: 'agenda-berita', label: 'Agenda & Berita', icon: 'event_note', href: '/admin/agenda-berita' },
+  { key: 'potensi', label: 'Potensi', icon: 'landscape', href: '/admin/potensi' },
+  { key: 'galeri', label: 'Galeri', icon: 'photo_library', href: '/admin/galeri' },
+  { key: 'kkn', label: 'KKN', icon: 'school', href: '/admin/kkn' },
+];
+---
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-[280px] bg-surface-container-lowest border-r border-surface-variant z-40">
+  <div class="h-[72px] flex items-center gap-3 px-6 border-b border-surface-variant">
+    <div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center">
+      <Icon name="waves" filled />
+    </div>
+    <h1 class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">Bedalo Admin</h1>
+  </div>
+  <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+    {items.map((item) => (
+      <a
+        class={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+          item.key === active
+            ? 'bg-primary-container text-on-primary-container font-medium'
+            : 'text-on-surface-variant hover:bg-surface-container-low'
+        }`}
+        href={item.href}
+      >
+        <Icon name={item.icon} filled={item.key === active} />
+        <span class="font-body-md text-body-md">{item.label}</span>
+      </a>
+    ))}
+    <a
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors mt-8"
+      href="/admin/pengaturan"
+    >
+      <Icon name="settings" />
+      <span class="font-body-md text-body-md font-medium">Pengaturan</span>
+    </a>
+  </nav>
+  <div class="p-4 border-t border-surface-variant">
+    <div class="flex items-center gap-3 px-4 py-3">
+      <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+        <Icon name="person" filled />
+      </div>
+      <div>
+        <p class="font-body-md text-body-md font-medium text-on-surface">Admin Desa</p>
+        <p class="text-sm text-on-surface-variant">admin@bedalo.desa.id</p>
+      </div>
+    </div>
+  </div>
+</aside>

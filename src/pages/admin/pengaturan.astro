@@ -1,0 +1,43 @@
+---
+import AdminLayout from '@layouts/AdminLayout.astro';
+---
+<AdminLayout title="Pengaturan Situs" active="pengaturan">
+  <header class="mb-8">
+    <h1 class="font-headline-md text-headline-md text-on-surface">Pengaturan Situs</h1>
+    <p class="text-on-surface-variant">Konfigurasi metadata, integrasi, dan informasi kontak Dusun Bedalo.</p>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Identitas Situs</h2>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">NAMA SITUS</p>
+        <p class="font-body-md">Dusun Bedalo</p>
+      </div>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">TAGLINE</p>
+        <p class="font-body-md">Keharmonisan Pesisir &amp; Tradisi</p>
+      </div>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">LOKASI</p>
+        <p class="font-body-md">Krambilsawit, Saptosari, Gunungkidul, DI Yogyakarta</p>
+      </div>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Integrasi</h2>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">FORM BACKEND</p>
+        <p class="font-body-md">Web3Forms (placeholder access key)</p>
+      </div>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">HOSTING</p>
+        <p class="font-body-md">Cloudflare Pages</p>
+      </div>
+      <div>
+        <p class="font-label-caps text-on-surface-variant">FRAMEWORK</p>
+        <p class="font-body-md">Astro 5 (Static)</p>
+      </div>
+    </section>
+  </div>
+</AdminLayout>

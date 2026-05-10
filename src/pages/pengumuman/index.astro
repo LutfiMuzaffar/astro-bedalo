@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import PengumumanCard from '@components/cards/PengumumanCard.astro';
+
+const all = (await getCollection('pengumuman')).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+---
+<PublicLayout title="Pengumuman Dusun Bedalo" active="agenda-berita">
+  <PageHero
+    eyebrow="INFORMASI RESMI"
+    title="Pengumuman Dusun"
+    description="Pengumuman resmi dari Pemerintah Dusun Bedalo, tim posyandu, dan instansi terkait."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Pengumuman' }]}
+  />
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-4">
+    {all.map((p) => (
+      <PengumumanCard
+        href={`/pengumuman/${p.slug}`}
+        title={p.data.title}
+        excerpt={p.data.excerpt}
+        publishedAt={p.data.publishedAt}
+        urgency={p.data.urgency}
+      />
+    ))}
+  </section>
+</PublicLayout>

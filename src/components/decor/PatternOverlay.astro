@@ -1,0 +1,8 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+<div class={`pattern-overlay absolute inset-0 pointer-events-none ${className}`.trim()} aria-hidden="true"></div>

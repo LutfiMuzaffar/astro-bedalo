@@ -1,0 +1,58 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Web3FormsBase from '@components/forms/Web3FormsBase.astro';
+import FormField from '@components/forms/FormField.astro';
+import TextAreaField from '@components/forms/TextAreaField.astro';
+import SelectField from '@components/forms/SelectField.astro';
+import Button from '@components/ui/Button.astro';
+---
+<PublicLayout title="Kirim Dokumentasi - Dusun Bedalo" active="kontak">
+  <PageHero
+    eyebrow="DOKUMENTASI WARGA"
+    title="Kirim Dokumentasi"
+    description="Bagikan foto atau cerita kegiatan, festival, atau pemandangan Bedalo agar bisa ditampilkan di galeri dusun."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Kontak', href: '/kontak' },
+      { label: 'Kirim Dokumentasi' },
+    ]}
+  />
+  <section class="max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="bg-surface-container-lowest rounded-[24px] p-8 space-y-4">
+      <p class="text-on-surface-variant">
+        Untuk file foto/video di atas 5 MB, mohon kirim ke alamat email{' '}
+        <a class="text-primary font-bold" href="mailto:dokumentasi@dusunbedalo.id">dokumentasi@dusunbedalo.id</a>
+        atau cantumkan tautan Google Drive/Dropbox di bagian bawah.
+      </p>
+      <Web3FormsBase formName="Kirim Dokumentasi">
+        <div class="grid md:grid-cols-2 gap-4">
+          <FormField label="Nama Pengirim" name="name" required />
+          <FormField label="Email" name="email" type="email" required />
+          <SelectField
+            label="Kategori Dokumentasi"
+            name="kategori"
+            required
+            options={[
+              { value: 'wisata', label: 'Wisata Pantai/Karst' },
+              { value: 'festival', label: 'Festival/Acara Adat' },
+              { value: 'kkn', label: 'Kegiatan KKN' },
+              { value: 'umkm', label: 'UMKM & Produk Lokal' },
+              { value: 'keseharian', label: 'Keseharian Warga' },
+              { value: 'lainnya', label: 'Lainnya' },
+            ]}
+          />
+          <FormField label="Tanggal Pengambilan" name="taken_at" type="date" />
+        </div>
+        <FormField label="Judul Dokumentasi" name="title" required placeholder="Misal: Sunset di Pantai Ngedan" />
+        <TextAreaField label="Deskripsi" name="description" required rows={5} placeholder="Ceritakan singkat tentang dokumentasi ini..." />
+        <FormField label="Tautan File (Google Drive / Dropbox)" name="file_url" type="url" placeholder="https://..." />
+        <p class="text-label-caps text-on-surface-variant">
+          Dengan mengirim dokumentasi, Anda menyetujui penggunaan materi tersebut untuk publikasi
+          resmi Dusun Bedalo dengan kredit sebagai pengirim.
+        </p>
+        <Button type="submit" variant="primary" size="lg" icon="upload">Kirim Dokumentasi</Button>
+      </Web3FormsBase>
+    </div>
+  </section>
+</PublicLayout>

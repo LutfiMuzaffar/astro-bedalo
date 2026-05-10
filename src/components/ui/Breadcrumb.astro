@@ -1,0 +1,27 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class={`flex items-center flex-wrap gap-2 font-body-md text-body-md text-on-surface-variant ${className}`.trim()}>
+  {items.map((item, index) => (
+    <span class="flex items-center gap-2">
+      {item.href && index !== items.length - 1 ? (
+        <a href={item.href} class="hover:text-primary transition-colors">{item.label}</a>
+      ) : (
+        <span class="text-on-surface">{item.label}</span>
+      )}
+      {index !== items.length - 1 && <Icon name="chevron_right" size={16} />}
+    </span>
+  ))}
+</nav>

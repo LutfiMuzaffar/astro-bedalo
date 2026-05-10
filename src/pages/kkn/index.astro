@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import KknProkerCard from '@components/cards/KknProkerCard.astro';
+import { IMG_GROUP_PORTRAIT } from '@lib/images';
+
+const proker = (await getCollection('kkn-proker')).slice(0, 6);
+const tulisan = (await getCollection('kkn-tulisan'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+<PublicLayout title="KKN Bedalo - Arsip Pengabdian Mahasiswa" active="kkn">
+  <section class="relative">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 grid md:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <p class="font-label-caps text-label-caps text-primary">JEJAK BAKTI</p>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Arsip KKN Dusun Bedalo</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Memori panjang kolaborasi mahasiswa KKN dengan warga Bedalo: program kerja, refleksi, dinding kenangan, dan dokumentasi galeri.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="/kkn/program-kerja" class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps">Lihat Program Kerja</a>
+          <a href="/kkn/dinding-kenangan" class="border-2 border-primary text-primary px-6 py-3 rounded-full font-label-caps text-label-caps">Dinding Kenangan</a>
+        </div>
+      </div>
+      <div class="aspect-square rounded-[32px] overflow-hidden">
+        <img src={IMG_GROUP_PORTRAIT} alt="Foto kelompok mahasiswa KKN dengan warga Bedalo." class="w-full h-full object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-section-gap">
+    <div class="space-y-6">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <p class="font-label-caps text-label-caps text-primary mb-2">PROGRAM KERJA</p>
+          <h2 class="font-headline-md text-headline-md text-on-surface">Inisiatif Mahasiswa</h2>
+        </div>
+        <a href="/kkn/program-kerja" class="text-primary font-bold hover:underline">Lihat Semua →</a>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+        {proker.map((p) => (
+          <KknProkerCard
+            href={`/kkn/program-kerja/${p.slug}`}
+            title={p.data.title}
+            summary={p.data.summary}
+            cover={p.data.cover}
+            coverAlt={p.data.coverAlt}
+            kelompok={p.data.kelompok}
+            period={p.data.period}
+            status={p.data.status}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-section-gap">
+      <a href="/kkn/anggota" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">groups</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Anggota Tim</h3>
+        <p class="text-on-surface-variant">Profil kelompok mahasiswa KKN yang menjalankan program di Bedalo.</p>
+      </a>
+      <a href="/kkn/refleksi" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">menu_book</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Refleksi &amp; Tulisan</h3>
+        <p class="text-on-surface-variant">Catatan harian dan refleksi anggota KKN selama mengabdi di Bedalo.</p>
+      </a>
+      <a href="/kkn/dinding-kenangan" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">favorite</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Dinding Kenangan</h3>
+        <p class="text-on-surface-variant">Pesan-pesan dari warga Bedalo untuk para mahasiswa KKN angkatan-angkatan terdahulu.</p>
+      </a>
+    </div>
+
+    {tulisan.length > 0 && (
+      <div class="space-y-6 mt-section-gap">
+        <div class="flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <p class="font-label-caps text-label-caps text-primary mb-2">CATATAN HARIAN</p>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Refleksi Terbaru</h2>
+          </div>
+          <a href="/kkn/refleksi" class="text-primary font-bold hover:underline">Lihat Semua →</a>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {tulisan.map((t) => (
+            <a href={`/kkn/refleksi/${t.slug}`} class="group block bg-surface-container-lowest rounded-[24px] p-6 hover:shadow-xl transition-shadow">
+              <p class="font-label-caps text-on-surface-variant mb-2">Kelompok {t.data.kelompok} · {t.data.author}</p>
+              <h4 class="font-headline-sm text-headline-sm group-hover:text-primary transition-colors">{t.data.title}</h4>
+              <p class="text-on-surface-variant mt-3 line-clamp-3">{t.data.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+</PublicLayout>

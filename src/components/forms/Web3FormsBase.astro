@@ -1,0 +1,32 @@
+---
+interface Props {
+  formName: string;
+  successMessage?: string;
+  redirectTo?: string;
+  class?: string;
+}
+
+const {
+  formName,
+  successMessage = 'Terima kasih, pesan Anda telah terkirim. Tim kami akan segera meresponi.',
+  redirectTo,
+  class: className = '',
+} = Astro.props;
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? 'YOUR_WEB3FORMS_ACCESS_KEY';
+---
+<form
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class={`space-y-6 ${className}`.trim()}
+>
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" name="subject" value={`[Bedalo] ${formName}`} />
+  <input type="hidden" name="from_name" value="Website Dusun Bedalo" />
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+  {redirectTo && <input type="hidden" name="redirect" value={redirectTo} />}
+  <slot />
+  <div class="bg-primary-fixed/30 text-on-primary-fixed-variant text-body-md p-4 rounded-2xl hidden" data-success-message>
+    {successMessage}
+  </div>
+</form>

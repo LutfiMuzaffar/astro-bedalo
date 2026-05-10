@@ -1,0 +1,117 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import MasonryGallery from '@components/sections/MasonryGallery.astro';
+import WisataCard from '@components/cards/WisataCard.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('wisata');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'wisata'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+
+const others = (await getCollection('wisata'))
+  .filter((w) => w.slug !== item.slug)
+  .slice(0, 3);
+---
+<PublicLayout title={`${item.data.name} - Wisata Dusun Bedalo`} description={item.data.tagline} ogImage={item.data.cover} active="potensi">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Potensi', href: '/potensi' },
+        { label: 'Wisata', href: '/potensi/wisata' },
+        { label: item.data.name },
+      ]}
+    />
+    <header class="grid md:grid-cols-2 gap-12 items-center mb-12">
+      <div class="space-y-4">
+        <span class="inline-block bg-primary text-on-primary px-4 py-1 rounded-full text-label-caps font-label-caps">
+          {item.data.type.toUpperCase()}
+        </span>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.name}</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">{item.data.tagline}</p>
+        {item.data.bestTimeToVisit && (
+          <p class="flex items-center gap-2 text-on-surface-variant font-body-md">
+            <Icon name="schedule" class="text-primary" /> {item.data.bestTimeToVisit}
+          </p>
+        )}
+        {item.data.facilities.length > 0 && (
+          <div class="flex flex-wrap gap-2 pt-2">
+            {item.data.facilities.map((f) => (
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-body-md">
+                <Icon name="check_circle" size={16} /> {f}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="aspect-[4/3] overflow-hidden rounded-[32px]">
+        <img class="w-full h-full object-cover" src={item.data.cover} alt={item.data.coverAlt} />
+      </div>
+    </header>
+
+    <div class="grid md:grid-cols-3 gap-12">
+      <div class="md:col-span-2 prose prose-lg max-w-none [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:mt-8 [&_h2]:mb-4 [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:text-on-surface-variant">
+        <Content />
+      </div>
+      <aside class="space-y-6">
+        {item.data.coordinates && (
+          <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+            <p class="font-label-caps text-on-surface-variant">KOORDINAT</p>
+            <p class="font-body-md text-on-surface">
+              {item.data.coordinates.lat.toFixed(4)}°, {item.data.coordinates.lng.toFixed(4)}°
+            </p>
+            <a class="text-primary inline-flex items-center gap-1" href={`https://www.google.com/maps?q=${item.data.coordinates.lat},${item.data.coordinates.lng}`} target="_blank" rel="noopener">
+              <Icon name="map" /> Buka di Google Maps
+            </a>
+          </div>
+        )}
+        {item.data.accessNote && (
+          <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+            <p class="font-label-caps text-on-surface-variant">AKSES</p>
+            <p class="text-body-md text-on-surface-variant">{item.data.accessNote}</p>
+          </div>
+        )}
+      </aside>
+    </div>
+
+    {item.data.gallery.length > 0 && (
+      <section class="mt-section-gap">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-12">Galeri Foto</h2>
+        <MasonryGallery photos={item.data.gallery.map((g) => ({ src: g.src, alt: g.alt }))} />
+      </section>
+    )}
+  </div>
+
+  {others.length > 0 && (
+    <section class="mt-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-12">Wisata Lainnya</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {others.map((w) => (
+          <WisataCard
+            href={`/potensi/wisata/${w.slug}`}
+            name={w.data.name}
+            tagline={w.data.tagline}
+            cover={w.data.cover}
+            coverAlt={w.data.coverAlt}
+            type={w.data.type}
+            facilities={w.data.facilities}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</PublicLayout>

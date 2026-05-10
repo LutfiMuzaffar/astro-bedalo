@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { formatLong } from '@lib/date';
+
+const kenangan = (await getCollection('kkn-kenangan'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<PublicLayout title="Dinding Kenangan KKN - Dusun Bedalo" active="kkn">
+  <PageHero
+    eyebrow="PESAN WARGA"
+    title="Dinding Kenangan KKN"
+    description="Pesan-pesan tulus dari warga Dusun Bedalo untuk para mahasiswa KKN angkatan-angkatan sebelumnya."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'KKN', href: '/kkn' },
+      { label: 'Dinding Kenangan' },
+    ]}
+  />
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+      {kenangan.map((k) => (
+        <article class="break-inside-avoid bg-surface-container-lowest rounded-[24px] p-6 shadow-sm">
+          {k.data.photo && (
+            <div class="aspect-[4/3] overflow-hidden rounded-2xl mb-4">
+              <img src={k.data.photo} alt={k.data.photoAlt ?? k.data.author} class="w-full h-full object-cover" />
+            </div>
+          )}
+          <p class="font-body-md text-body-md text-on-surface italic mb-4 leading-relaxed">"{k.data.message}"</p>
+          <p class="font-label-caps text-label-caps text-primary">— {k.data.author}</p>
+          <p class="text-on-surface-variant text-label-caps mt-1">{formatLong(k.data.publishedAt)}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</PublicLayout>

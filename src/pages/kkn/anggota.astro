@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import PersonCard from '@components/cards/PersonCard.astro';
+
+const anggota = (await getCollection('kkn-anggota')).sort((a, b) => a.data.order - b.data.order);
+---
+<PublicLayout title="Anggota Tim KKN - Dusun Bedalo" active="kkn">
+  <PageHero
+    eyebrow="TIM PENGABDI"
+    title="Anggota Kelompok KKN 129"
+    description="Sembilan mahasiswa lintas fakultas yang menjalankan program kerja di Dusun Bedalo."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'KKN', href: '/kkn' },
+      { label: 'Anggota' },
+    ]}
+  />
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {anggota.map((a) => (
+        <PersonCard
+          name={a.data.name}
+          role={a.data.role}
+          photo={a.data.photo}
+          photoAlt={a.data.photoAlt}
+          bio={a.data.bio}
+          fakultas={a.data.fakultas}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>

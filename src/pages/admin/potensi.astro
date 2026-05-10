@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '@layouts/AdminLayout.astro';
+
+const wisata = await getCollection('wisata');
+const umkm = await getCollection('umkm');
+const kuliner = await getCollection('kuliner');
+---
+<AdminLayout title="Kelola Potensi" active="potensi">
+  <header class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div>
+      <h1 class="font-headline-md text-headline-md text-on-surface">Kelola Potensi Desa</h1>
+      <p class="text-on-surface-variant">Wisata, UMKM, dan kuliner pesisir Dusun Bedalo.</p>
+    </div>
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps">+ Tambah Potensi</button>
+  </header>
+
+  <div class="grid lg:grid-cols-3 gap-6">
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Wisata ({wisata.length})</h2>
+      <ul class="space-y-3">
+        {wisata.map((w) => (
+          <li class="flex items-start gap-3">
+            <img src={w.data.cover} alt="" class="w-12 h-12 rounded-xl object-cover" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{w.data.name}</p>
+              <p class="text-on-surface-variant text-label-caps">{w.data.type}</p>
+            </div>
+            <a href={`/potensi/wisata/${w.slug}`} class="text-primary text-label-caps">Lihat</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">UMKM ({umkm.length})</h2>
+      <ul class="space-y-3">
+        {umkm.map((u) => (
+          <li class="flex items-start gap-3">
+            <img src={u.data.cover} alt="" class="w-12 h-12 rounded-xl object-cover" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{u.data.name}</p>
+              <p class="text-on-surface-variant text-label-caps">{u.data.category}</p>
+            </div>
+            <a href={`/potensi/umkm/${u.slug}`} class="text-primary text-label-caps">Lihat</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Kuliner ({kuliner.length})</h2>
+      <ul class="space-y-3">
+        {kuliner.map((k) => (
+          <li class="flex items-start gap-3">
+            <img src={k.data.cover} alt="" class="w-12 h-12 rounded-xl object-cover" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{k.data.name}</p>
+              <p class="text-on-surface-variant text-label-caps">Kuliner pesisir</p>
+            </div>
+            <a href={`/potensi/kuliner/${k.slug}`} class="text-primary text-label-caps">Lihat</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</AdminLayout>

@@ -1,0 +1,48 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import { formatLong } from '@lib/date';
+
+interface Props {
+  href: string;
+  title: string;
+  excerpt: string;
+  publishedAt: Date;
+  urgency: 'info' | 'penting' | 'darurat';
+  class?: string;
+}
+
+const { href, title, excerpt, publishedAt, urgency, class: className = '' } = Astro.props;
+
+const urgencyClass = {
+  info: 'bg-primary-fixed text-on-primary-fixed-variant',
+  penting: 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
+  darurat: 'bg-error-container text-on-error-container',
+}[urgency];
+
+const urgencyLabel = {
+  info: 'Info',
+  penting: 'Penting',
+  darurat: 'Darurat',
+}[urgency];
+
+const urgencyIcon = {
+  info: 'info',
+  penting: 'priority_high',
+  darurat: 'warning',
+}[urgency];
+---
+<a href={href} class={`group block bg-surface-container-lowest rounded-[24px] p-6 hover:shadow-xl transition-shadow ${className}`.trim()}>
+  <div class="flex items-start gap-4">
+    <div class={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${urgencyClass}`}>
+      <Icon name={urgencyIcon} />
+    </div>
+    <div class="flex-1 space-y-2">
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class={`px-3 py-1 rounded-full text-label-caps font-label-caps ${urgencyClass}`}>{urgencyLabel}</span>
+        <p class="text-on-surface-variant text-label-caps">{formatLong(publishedAt)}</p>
+      </div>
+      <h4 class="font-bold text-lg group-hover:text-primary transition-colors">{title}</h4>
+      <p class="text-on-surface-variant text-body-md line-clamp-2">{excerpt}</p>
+    </div>
+  </div>
+</a>

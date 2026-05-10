@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import UmkmCard from '@components/cards/UmkmCard.astro';
+
+const all = await getCollection('umkm');
+---
+<PublicLayout title="UMKM Bedalo - Potensi Desa" active="potensi">
+  <PageHero
+    eyebrow="EKONOMI WARGA"
+    title="UMKM Bedalo"
+    description="Pelaku usaha mikro, kecil, dan menengah Dusun Bedalo: produk pesisir, kerajinan, jasa, dan kuliner."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Potensi', href: '/potensi' },
+      { label: 'UMKM' },
+    ]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {all.map((u) => (
+        <UmkmCard
+          href={`/potensi/umkm/${u.slug}`}
+          name={u.data.name}
+          category={u.data.category}
+          summary={u.data.summary}
+          cover={u.data.cover}
+          coverAlt={u.data.coverAlt}
+          owner={u.data.owner}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>

@@ -1,0 +1,92 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import PersonCard from '@components/cards/PersonCard.astro';
+import FasilitasCard from '@components/cards/FasilitasCard.astro';
+import StatsStrip from '@components/sections/StatsStrip.astro';
+
+const pemerintahan = (await getCollection('pemerintahan'))
+  .sort((a, b) => a.data.order - b.data.order);
+const fasilitas = await getCollection('fasilitas');
+---
+<PublicLayout title="Profil Dusun Bedalo" active="profil">
+  <PageHero
+    eyebrow="TENTANG KAMI"
+    title="Profil Dusun Bedalo"
+    description="Sejarah, geografi, demografi, dan struktur pemerintahan Dusun Bedalo, Krambilsawit, Saptosari, Gunungkidul."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Profil' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-12">
+    <StatsStrip
+      items={[
+        { value: '1,240+', label: 'PENDUDUK', icon: 'groups' },
+        { value: '85 Ha', label: 'LUAS WILAYAH', icon: 'landscape' },
+        { value: '6 RT', label: 'RUKUN TETANGGA', icon: 'cottage' },
+        { value: '4 Pantai', label: 'DESTINASI WISATA', icon: 'beach_access' },
+      ]}
+    />
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <a href="/profil/sejarah" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">history_edu</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Sejarah Dusun</h3>
+        <p class="text-on-surface-variant">Perjalanan Dusun Bedalo dari pedukuhan kecil pesisir hingga komunitas modern hari ini.</p>
+      </a>
+      <a href="/profil/geografi" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">terrain</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Geografi &amp; Wilayah</h3>
+        <p class="text-on-surface-variant">Letak, batas, topografi karst, dan karakter wilayah pesisir Bedalo.</p>
+      </a>
+      <a href="/profil/demografi" class="bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[28px]">groups</span>
+        </div>
+        <h3 class="font-headline-sm text-headline-sm">Demografi Warga</h3>
+        <p class="text-on-surface-variant">Komposisi penduduk, mata pencaharian, dan komunitas adat di Dusun Bedalo.</p>
+      </a>
+    </div>
+
+    <div class="space-y-6 mt-section-gap">
+      <div>
+        <p class="font-label-caps text-label-caps text-primary mb-2">PEMERINTAHAN DUSUN</p>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Struktur Aparat Dusun</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+        {pemerintahan.map((p) => (
+          <PersonCard
+            name={p.data.name}
+            role={p.data.role}
+            photo={p.data.photo}
+            photoAlt={p.data.photoAlt}
+            bio={p.data.bio}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-6 mt-section-gap">
+      <div>
+        <p class="font-label-caps text-label-caps text-primary mb-2">SARANA UMUM</p>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Fasilitas Dusun</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+        {fasilitas.map((f) => (
+          <FasilitasCard
+            name={f.data.name}
+            type={f.data.type}
+            description={f.data.description}
+            photo={f.data.photo}
+            photoAlt={f.data.photoAlt}
+            address={f.data.address}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</PublicLayout>

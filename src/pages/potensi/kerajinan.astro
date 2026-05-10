@@ -1,0 +1,40 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import { IMG_HANDICRAFT } from '@lib/images';
+---
+<PublicLayout title="Kerajinan Tangan - Dusun Bedalo" active="potensi">
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Potensi', href: '/potensi' },
+        { label: 'Kerajinan' },
+      ]}
+    />
+    <header class="space-y-4 mb-10">
+      <p class="font-label-caps text-label-caps text-primary">PRODUK SENI</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Kerajinan Tangan Bedalo</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Kerajinan tangan Bedalo memanfaatkan kekayaan material pesisir: pandanus, bambu, batik pesisir,
+        dan kayu apung yang dipoles oleh tangan-tangan terampil warga.
+      </p>
+    </header>
+    <div class="aspect-[16/9] overflow-hidden rounded-[24px] mb-10">
+      <img src={IMG_HANDICRAFT} alt="Pengrajin lokal sedang menganyam pandanus." class="w-full h-full object-cover" />
+    </div>
+    <div class="prose prose-lg max-w-none space-y-4">
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-8 mb-4">Produk Kerajinan</h2>
+      <p class="text-body-lg text-on-surface-variant">
+        Anyaman pandanus, batik pesisir bermotif gelombang dan biota laut, kerajinan kayu apung, serta
+        ornamen rumah dari serat alam menjadi produk yang dipasarkan oleh kelompok UMKM Bedalo.
+      </p>
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-8 mb-4">Penggerak Komunitas</h2>
+      <p class="text-body-lg text-on-surface-variant">
+        Lebih dari 40 pengrajin aktif tergabung dalam tiga kelompok kerajinan, dengan pendampingan rutin
+        dari Dinas Koperasi Kabupaten Gunungkidul dan tim KKN.
+      </p>
+    </div>
+  </article>
+</PublicLayout>

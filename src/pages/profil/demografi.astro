@@ -1,0 +1,59 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+---
+<PublicLayout title="Demografi Warga - Dusun Bedalo" active="profil">
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Profil', href: '/profil' },
+        { label: 'Demografi' },
+      ]}
+    />
+    <header class="space-y-4 mb-10">
+      <p class="font-label-caps text-label-caps text-primary">PROFIL WARGA</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Demografi Warga Bedalo</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Komposisi penduduk, mata pencaharian, dan komunitas adat di Dusun Bedalo per Sensus Dusun 2024.
+      </p>
+    </header>
+
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
+      <div class="bg-surface-container-lowest rounded-[24px] p-6">
+        <p class="font-label-caps text-on-surface-variant">JUMLAH PENDUDUK</p>
+        <p class="font-headline-md text-primary">1,240</p>
+      </div>
+      <div class="bg-surface-container-lowest rounded-[24px] p-6">
+        <p class="font-label-caps text-on-surface-variant">KEPALA KELUARGA</p>
+        <p class="font-headline-md text-primary">320</p>
+      </div>
+      <div class="bg-surface-container-lowest rounded-[24px] p-6">
+        <p class="font-label-caps text-on-surface-variant">USIA PRODUKTIF</p>
+        <p class="font-headline-md text-primary">62%</p>
+      </div>
+    </div>
+
+    <div class="prose prose-lg max-w-none space-y-4">
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Mata Pencaharian</h2>
+      <p class="text-body-lg text-on-surface-variant">
+        Mayoritas warga Bedalo bermata pencaharian sebagai petani palawija (38%), nelayan tradisional (24%),
+        pelaku UMKM dan kerajinan (18%), dan pekerja pariwisata (12%). Sisanya bekerja sebagai aparat
+        dusun, guru, tenaga kesehatan, dan pekerja lepas.
+      </p>
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Pendidikan</h2>
+      <p class="text-body-lg text-on-surface-variant">
+        Tingkat melek huruf dewasa di Bedalo mencapai 96%. Anak-anak usia sekolah dasar sebagian besar
+        bersekolah di SD Bedalo, sementara jenjang menengah ditempuh di Saptosari atau Wonosari.
+      </p>
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Komunitas Adat &amp; Sosial</h2>
+      <ul class="list-disc pl-6 space-y-2 text-body-lg text-on-surface-variant">
+        <li>Karang Taruna Bedalo Bahari — pengelola wisata &amp; kebersihan pantai.</li>
+        <li>Kelompok Tani Wedang Lor — petani palawija dan kebun labu.</li>
+        <li>Pokdarwis Pesisir Lestari — pengelola jalur trekking dan pendampingan wisatawan.</li>
+        <li>PKK Bedalo — penggerak posyandu, dapur sehat, dan pelatihan UMKM.</li>
+      </ul>
+    </div>
+  </article>
+</PublicLayout>

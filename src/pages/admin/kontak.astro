@@ -1,0 +1,21 @@
+---
+import AdminLayout from '@layouts/AdminLayout.astro';
+---
+<AdminLayout title="Kelola Pesan Masuk" active="kontak">
+  <header class="mb-8">
+    <h1 class="font-headline-md text-headline-md text-on-surface">Pesan Masuk</h1>
+    <p class="text-on-surface-variant">Kelola pesan dari form kontak, kirim pesan, dan kirim dokumentasi.</p>
+  </header>
+  <div class="bg-surface-container-lowest rounded-[24px] p-8 space-y-4 text-center">
+    <span class="material-symbols-outlined text-[64px] text-on-surface-variant">inbox</span>
+    <h2 class="font-headline-sm text-headline-sm">Inbox Web3Forms</h2>
+    <p class="text-on-surface-variant">
+      Pesan dari semua form akan masuk ke email
+      <a class="text-primary" href="mailto:halo@dusunbedalo.id">halo@dusunbedalo.id</a> melalui Web3Forms.
+      Konfigurasi access key di <code class="font-mono">PUBLIC_WEB3FORMS_KEY</code> environment variable.
+    </p>
+    <a href="https://web3forms.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps">
+      Buka Web3Forms Dashboard
+    </a>
+  </div>
+</AdminLayout>

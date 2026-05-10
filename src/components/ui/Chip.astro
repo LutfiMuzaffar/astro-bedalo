@@ -1,0 +1,32 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+type Tone =
+  | 'primary-fixed'
+  | 'tertiary-fixed'
+  | 'secondary-fixed'
+  | 'surface-container'
+  | 'on-secondary-container';
+
+interface Props {
+  tone?: Tone;
+  icon?: string;
+  class?: string;
+}
+
+const { tone = 'primary-fixed', icon, class: className = '' } = Astro.props;
+
+const toneClass = {
+  'primary-fixed': 'bg-primary-fixed text-on-primary-fixed-variant',
+  'tertiary-fixed': 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
+  'secondary-fixed': 'bg-secondary-fixed text-on-secondary-fixed-variant',
+  'surface-container': 'bg-surface-container text-on-surface-variant',
+  'on-secondary-container': 'bg-on-secondary-container/10 text-on-secondary-container',
+}[tone];
+---
+<span
+  class={`inline-flex items-center gap-2 px-4 py-1 rounded-full text-label-caps font-label-caps ${toneClass} ${className}`.trim()}
+>
+  {icon && <Icon name={icon} size={16} />}
+  <slot />
+</span>

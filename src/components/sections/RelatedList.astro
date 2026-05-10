@@ -1,0 +1,15 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+
+interface Props {
+  title: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { title, align = 'left', class: className = '' } = Astro.props;
+---
+<section class={`mt-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop ${className}`.trim()}>
+  <SectionHeading level={2} align={align} accent={false}>{title}</SectionHeading>
+  <slot />
+</section>

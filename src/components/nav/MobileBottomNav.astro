@@ -1,0 +1,31 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import type { NavKey } from '@lib/nav';
+
+interface Props {
+  active?: NavKey;
+}
+
+const { active = 'home' } = Astro.props;
+
+const items = [
+  { key: 'home' as const, label: 'Home', icon: 'home', href: '/' },
+  { key: 'potensi' as const, label: 'Potensi', icon: 'landscape', href: '/potensi' },
+  { key: 'agenda-berita' as const, label: 'Berita', icon: 'article', href: '/berita' },
+  { key: 'galeri' as const, label: 'Galeri', icon: 'photo_library', href: '/galeri' },
+  { key: 'kontak' as const, label: 'Kontak', icon: 'chat', href: '/kontak' },
+];
+---
+<nav
+  class="md:hidden fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-[0_-4px_20px_-4px_rgba(2,62,138,0.08)] px-margin-mobile py-3 flex justify-between items-center border-t border-surface-dim/20"
+>
+  {items.map((item) => (
+    <a
+      href={item.href}
+      class={`flex flex-col items-center gap-1 ${item.key === active ? 'text-primary' : 'text-on-surface-variant'}`}
+    >
+      <Icon name={item.icon} filled={item.key === active} />
+      <span class="text-[10px] font-medium">{item.label}</span>
+    </a>
+  ))}
+</nav>

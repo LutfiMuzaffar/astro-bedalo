@@ -1,0 +1,103 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import MasonryGallery from '@components/sections/MasonryGallery.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('umkm');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'umkm'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+
+const categoryLabel = {
+  kuliner: 'Kuliner',
+  kerajinan: 'Kerajinan',
+  jasa: 'Jasa',
+  pertanian: 'Pertanian',
+  lainnya: 'Lainnya',
+}[item.data.category] ?? item.data.category;
+---
+<PublicLayout title={`${item.data.name} - UMKM Bedalo`} description={item.data.summary} ogImage={item.data.cover} active="potensi">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Potensi', href: '/potensi' },
+        { label: 'UMKM', href: '/potensi/umkm' },
+        { label: item.data.name },
+      ]}
+    />
+    <header class="grid md:grid-cols-2 gap-12 mb-12">
+      <div class="aspect-[4/3] overflow-hidden rounded-[32px]">
+        <img class="w-full h-full object-cover" src={item.data.cover} alt={item.data.coverAlt} />
+      </div>
+      <div class="space-y-4 self-center">
+        <span class="inline-block bg-tertiary text-on-tertiary px-4 py-1 rounded-full text-label-caps font-label-caps">{categoryLabel.toUpperCase()}</span>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.name}</h1>
+        {item.data.owner && <p class="text-on-surface-variant flex items-center gap-2"><Icon name="person" /> {item.data.owner}</p>}
+        <p class="font-body-lg text-body-lg text-on-surface-variant">{item.data.summary}</p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          {item.data.contact.whatsapp && (
+            <a href={`https://wa.me/${item.data.contact.whatsapp.replace(/[^0-9]/g, '')}`} class="inline-flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-label-caps text-label-caps">
+              <Icon name="chat" /> Hubungi WhatsApp
+            </a>
+          )}
+          {item.data.contact.instagram && (
+            <a href={`https://instagram.com/${item.data.contact.instagram.replace(/^@/, '')}`} class="inline-flex items-center gap-2 border-2 border-primary text-primary px-4 py-2 rounded-full font-label-caps text-label-caps">
+              <Icon name="public" /> {item.data.contact.instagram}
+            </a>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <div class="grid md:grid-cols-3 gap-12">
+      <div class="md:col-span-2 prose prose-lg max-w-none [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:mt-8 [&_h2]:mb-4 [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:text-on-surface-variant">
+        <Content />
+      </div>
+      <aside class="space-y-6">
+        {item.data.contact.address && (
+          <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+            <p class="font-label-caps text-on-surface-variant">ALAMAT</p>
+            <p class="text-body-md text-on-surface">{item.data.contact.address}</p>
+          </div>
+        )}
+        {item.data.products.length > 0 && (
+          <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+            <p class="font-label-caps text-on-surface-variant">PRODUK</p>
+            <ul class="space-y-3">
+              {item.data.products.map((p) => (
+                <li class="flex items-start justify-between gap-3">
+                  <div class="flex-1">
+                    <p class="font-bold text-on-surface">{p.name}</p>
+                    {p.description && <p class="text-body-md text-on-surface-variant">{p.description}</p>}
+                  </div>
+                  {p.price && <span class="font-bold text-primary text-body-md whitespace-nowrap">{p.price}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+
+    {item.data.gallery.length > 0 && (
+      <section class="mt-section-gap">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-12">Galeri Produk</h2>
+        <MasonryGallery photos={item.data.gallery.map((g) => ({ src: g.src, alt: g.alt }))} />
+      </section>
+    )}
+  </div>
+</PublicLayout>
