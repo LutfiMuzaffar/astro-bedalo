@@ -1,0 +1,29 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  titleHighlight?: string;
+  body?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { eyebrow, title, titleHighlight, body, align = 'left', class: className = '' } = Astro.props;
+const alignClass = align === 'center' ? 'text-center mx-auto' : '';
+---
+<section class={`pt-12 pb-12 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop ${className}`.trim()}>
+  <div class={`max-w-3xl space-y-4 ${alignClass}`.trim()}>
+    {eyebrow && (
+      <span class="inline-block bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps px-3 py-1.5 rounded-[8px] uppercase tracking-wider">
+        {eyebrow}
+      </span>
+    )}
+    <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">
+      {title}
+      {titleHighlight && <> <span class="text-primary">{titleHighlight}</span></>}
+    </h1>
+    {body && (
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">{body}</p>
+    )}
+  </div>
+</section>

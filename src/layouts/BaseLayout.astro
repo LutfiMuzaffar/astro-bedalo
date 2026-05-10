@@ -7,6 +7,7 @@ interface Props {
   bodyClass?: string;
   ogImage?: string;
   lang?: string;
+  noIndex?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   bodyClass = 'bg-background text-on-surface font-body-md topo-bg',
   ogImage,
   lang = 'id',
+  noIndex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
@@ -33,6 +35,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta property="og:url" content={canonical} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content="summary_large_image" />
+    {noIndex && <meta name="robots" content="noindex,nofollow" />}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 

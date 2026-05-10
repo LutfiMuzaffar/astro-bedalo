@@ -1,0 +1,112 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface FeaturedTile {
+  href?: string;
+  badge: string;
+  title: string;
+  body: string;
+  cover: string;
+  coverAlt?: string;
+}
+
+interface MediumTile {
+  href?: string;
+  cover: string;
+  coverAlt?: string;
+  badge: string;
+  title: string;
+  body: string;
+}
+
+interface SmallTile {
+  href?: string;
+  icon: string;
+  badge: string;
+  title: string;
+}
+
+interface Props {
+  /** Big card top-left, col-span 8 */
+  featured: FeaturedTile;
+  /** Medium card top-right, col-span 4 */
+  medium: MediumTile;
+  /** Wider medium under featured, col-span 5 */
+  mediumSecondary?: MediumTile;
+  /** Small icon tiles, col-span 7 (when mediumSecondary present) */
+  small?: SmallTile[];
+}
+
+const { featured, medium, mediumSecondary, small = [] } = Astro.props;
+---
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <a
+      href={featured.href ?? '#'}
+      class="md:col-span-8 bg-surface-container-lowest rounded-[24px] ambient-shadow overflow-hidden group cursor-pointer relative h-[400px] md:h-[500px] block"
+    >
+      <div
+        class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+        style={`background-image: url('${featured.cover}');`}
+        aria-label={featured.coverAlt ?? ''}
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-8 w-full">
+        <span class="inline-block px-3 py-1 bg-surface-container-lowest/20 backdrop-blur-md text-surface-container-lowest rounded-[8px] font-label-caps text-label-caps mb-3">{featured.badge}</span>
+        <h3 class="font-headline-md text-headline-md text-surface-container-lowest mb-2">{featured.title}</h3>
+        <p class="font-body-md text-body-md text-surface-container-lowest/80 line-clamp-2 max-w-2xl">{featured.body}</p>
+      </div>
+    </a>
+
+    <a
+      href={medium.href ?? '#'}
+      class="md:col-span-4 bg-surface-container-lowest rounded-[24px] ambient-shadow p-6 flex flex-col justify-between group cursor-pointer"
+    >
+      <div
+        class="h-48 rounded-[16px] mb-6 overflow-hidden bg-surface-container-high relative"
+        style={`background-image: url('${medium.cover}'); background-size: cover; background-position: center;`}
+        aria-label={medium.coverAlt ?? ''}
+      ></div>
+      <div>
+        <span class="inline-block text-primary font-label-caps text-label-caps mb-2 tracking-wider">{medium.badge}</span>
+        <h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">{medium.title}</h4>
+        <p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">{medium.body}</p>
+      </div>
+    </a>
+
+    {mediumSecondary && (
+      <a
+        href={mediumSecondary.href ?? '#'}
+        class="md:col-span-5 bg-surface-container-lowest rounded-[24px] ambient-shadow p-6 flex flex-col justify-between group cursor-pointer"
+      >
+        <div
+          class="h-48 rounded-[16px] mb-6 overflow-hidden bg-surface-container-high relative"
+          style={`background-image: url('${mediumSecondary.cover}'); background-size: cover; background-position: center;`}
+          aria-label={mediumSecondary.coverAlt ?? ''}
+        ></div>
+        <div>
+          <span class="inline-block text-primary font-label-caps text-label-caps mb-2 tracking-wider">{mediumSecondary.badge}</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">{mediumSecondary.title}</h4>
+          <p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">{mediumSecondary.body}</p>
+        </div>
+      </a>
+    )}
+
+    {small.length > 0 && (
+      <div class={`${mediumSecondary ? 'md:col-span-7' : 'md:col-span-12'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter`}>
+        {small.map((tile) => (
+          <a
+            href={tile.href ?? '#'}
+            class="bg-surface-container-lowest rounded-[24px] ambient-shadow p-6 flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300 cursor-pointer"
+          >
+            <Icon name={tile.icon} class="text-primary mb-4" size={32} />
+            <div>
+              <span class="inline-block text-outline font-label-caps text-label-caps mb-1 tracking-wider">{tile.badge}</span>
+              <h4 class="font-body-lg text-body-lg text-on-surface font-semibold">{tile.title}</h4>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
