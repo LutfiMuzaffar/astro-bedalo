@@ -1,7 +1,7 @@
 ---
 title: 'Festival Laut Bedalo 2025 Sukses Digelar di Pantai Ngedan'
 excerpt: 'Ribuan pengunjung memadati Pantai Ngedan dalam perayaan budaya pesisir yang dipenuhi pertunjukan, kuliner, dan ritual adat.'
-cover: 'https://images.unsplash.com/photo-1531180961203-7b94e2d76b33?w=1600&auto=format&fit=crop&q=80'
+cover: 'https://images.unsplash.com/photo-1591197172062-c718f82aba20?w=1600&auto=format&fit=crop&q=80'
 coverAlt: 'Pertunjukan budaya pesisir dengan pakaian tradisional di tepi pantai saat senja.'
 publishedAt: 2025-02-08
 author: 'Tim Redaksi Bedalo'

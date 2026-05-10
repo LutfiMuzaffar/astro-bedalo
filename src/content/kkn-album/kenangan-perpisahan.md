@@ -10,7 +10,7 @@ photos:
     alt: 'Foto kelompok KKN bersama warga.'
   - src: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=1600&auto=format&fit=crop&q=80'
     alt: 'Anak-anak dusun bermain bersama tim KKN.'
-  - src: 'https://images.unsplash.com/photo-1531180961203-7b94e2d76b33?w=1600&auto=format&fit=crop&q=80'
+  - src: 'https://images.unsplash.com/photo-1591197172062-c718f82aba20?w=1600&auto=format&fit=crop&q=80'
     alt: 'Acara perpisahan di balai dusun.'
 ---
 

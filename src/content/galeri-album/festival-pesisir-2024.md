@@ -1,12 +1,12 @@
 ---
 title: 'Festival Pesisir Bedalo 2024'
 subtitle: 'Dokumentasi rangkaian acara dua hari di Pantai Ngedan'
-cover: 'https://images.unsplash.com/photo-1531180961203-7b94e2d76b33?w=1600&auto=format&fit=crop&q=80'
+cover: 'https://images.unsplash.com/photo-1591197172062-c718f82aba20?w=1600&auto=format&fit=crop&q=80'
 coverAlt: 'Penari pesisir tampil saat festival 2024.'
 publishedAt: 2024-07-15
 tags: ['festival', 'budaya', 'pantai-ngedan']
 photos:
-  - src: 'https://images.unsplash.com/photo-1531180961203-7b94e2d76b33?w=1600&auto=format&fit=crop&q=80'
+  - src: 'https://images.unsplash.com/photo-1591197172062-c718f82aba20?w=1600&auto=format&fit=crop&q=80'
     alt: 'Penari pesisir tampil di panggung utama.'
   - src: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?w=1600&auto=format&fit=crop&q=80'
     alt: 'Tari kreasi pesisir oleh anak-anak dusun.'

@@ -8,7 +8,7 @@ bucket: 'kegiatan'
 photos:
   - src: 'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?w=1600&auto=format&fit=crop&q=80'
     alt: 'Sukarelawan dengan kantong sampah.'
-  - src: 'https://images.unsplash.com/photo-1498925008800-019c6d59d903?w=1600&auto=format&fit=crop&q=80'
+  - src: 'https://images.unsplash.com/photo-1523307730650-594bc63f9d67?w=1600&auto=format&fit=crop&q=80'
     alt: 'Pemasangan tempat sampah pilah-pilah.'
 ---
 
