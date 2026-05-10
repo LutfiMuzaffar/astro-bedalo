@@ -1,0 +1,52 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseHref: string;
+}
+
+const { currentPage, totalPages, baseHref } = Astro.props;
+
+const hrefFor = (page: number) =>
+  page === 1 ? baseHref : `${baseHref}/page/${page}`;
+
+const pages: number[] = [];
+for (let i = 1; i <= totalPages; i++) pages.push(i);
+---
+{totalPages > 1 && (
+  <nav class="flex items-center justify-center gap-2 mt-12" aria-label="Pagination">
+    {currentPage > 1 && (
+      <a
+        href={hrefFor(currentPage - 1)}
+        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors"
+        aria-label="Halaman sebelumnya"
+      >
+        <Icon name="chevron_left" />
+      </a>
+    )}
+    {pages.map((page) => (
+      <a
+        href={hrefFor(page)}
+        class={`w-10 h-10 rounded-full flex items-center justify-center font-body-md text-body-md transition-colors ${
+          page === currentPage
+            ? 'bg-primary text-on-primary'
+            : 'text-on-surface-variant hover:bg-surface-container-low'
+        }`}
+        aria-current={page === currentPage ? 'page' : undefined}
+      >
+        {page}
+      </a>
+    ))}
+    {currentPage < totalPages && (
+      <a
+        href={hrefFor(currentPage + 1)}
+        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors"
+        aria-label="Halaman berikutnya"
+      >
+        <Icon name="chevron_right" />
+      </a>
+    )}
+  </nav>
+)}

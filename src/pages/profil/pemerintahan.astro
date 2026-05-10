@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import PersonCard from '@components/cards/PersonCard.astro';
+
+const pemerintahan = (await getCollection('pemerintahan')).sort((a, b) => a.data.order - b.data.order);
+---
+<PublicLayout title="Pemerintahan Dusun - Dusun Bedalo" active="profil">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Profil', href: '/profil' },
+        { label: 'Pemerintahan' },
+      ]}
+    />
+    <header class="max-w-3xl space-y-4 mb-12">
+      <p class="font-label-caps text-label-caps text-primary">STRUKTUR ORGANISASI</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Pemerintahan Dusun Bedalo</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Aparat dusun yang bertugas membantu pelayanan administrasi dan pembangunan untuk warga Bedalo.
+      </p>
+    </header>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {pemerintahan.map((p) => (
+        <PersonCard
+          name={p.data.name}
+          role={p.data.role}
+          photo={p.data.photo}
+          photoAlt={p.data.photoAlt}
+          bio={p.data.bio}
+        />
+      ))}
+    </div>
+  </div>
+</PublicLayout>

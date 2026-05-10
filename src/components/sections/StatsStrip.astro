@@ -1,0 +1,33 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface StatItem {
+  value: string;
+  label: string;
+  icon: string;
+}
+
+interface Props {
+  items: StatItem[];
+}
+
+const { items } = Astro.props;
+---
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+  <div class="bg-white/40 backdrop-blur-sm rounded-[32px] p-8 border border-white/50 flex flex-wrap justify-around items-center gap-8 shadow-[0_8px_32px_-8px_rgba(2,62,138,0.1)]">
+    {items.map((item, idx) => (
+      <>
+        <div class="flex items-center gap-4">
+          <div class="text-primary-container">
+            <Icon name={item.icon} size={40} />
+          </div>
+          <div>
+            <h4 class="font-headline-md text-primary">{item.value}</h4>
+            <p class="text-on-surface-variant font-label-caps text-[12px]">{item.label}</p>
+          </div>
+        </div>
+        {idx < items.length - 1 && <div class="w-px h-12 bg-outline-variant/30 hidden md:block"></div>}
+      </>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props as Props;
+---
+<div class={`topo-bg ${className}`.trim()}>
+  <slot />
+</div>

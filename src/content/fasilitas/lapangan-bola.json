@@ -1,0 +1,8 @@
+{
+  "name": "Lapangan Sepak Bola Bedalo",
+  "type": "olahraga",
+  "description": "Lapangan komunitas untuk sepak bola, voli, dan kegiatan dusun lainnya.",
+  "photo": "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=1200&auto=format&fit=crop&q=80",
+  "photoAlt": "Lapangan sepak bola Dusun Bedalo.",
+  "address": "Dusun Bedalo"
+}

@@ -1,0 +1,93 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import DateBadge from '@components/ui/DateBadge.astro';
+import { formatLong, formatTime } from '@lib/date';
+
+type Variant = 'default' | 'horizontal' | 'compact';
+
+interface Props {
+  href: string;
+  title: string;
+  excerpt: string;
+  startsAt: Date;
+  endsAt?: Date;
+  location: string;
+  category: string;
+  cover?: string;
+  coverAlt?: string;
+  variant?: Variant;
+  class?: string;
+}
+
+const {
+  href,
+  title,
+  excerpt,
+  startsAt,
+  endsAt,
+  location,
+  category,
+  cover,
+  coverAlt,
+  variant = 'default',
+  class: className = '',
+} = Astro.props;
+
+const categoryLabel = {
+  rapat: 'Rapat',
+  kegiatan: 'Kegiatan',
+  budaya: 'Budaya',
+  sosial: 'Sosial',
+  kkn: 'KKN',
+}[category] ?? category;
+
+const timeRange = endsAt ? `${formatTime(startsAt)} – ${formatTime(endsAt)}` : formatTime(startsAt);
+---
+{variant === 'horizontal' && (
+  <a href={href} class={`group flex gap-4 bg-surface-container-lowest rounded-[24px] p-6 hover:shadow-xl transition-shadow ${className}`.trim()}>
+    <DateBadge date={startsAt} />
+    <div class="flex-1 space-y-2">
+      <span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-lg text-label-caps font-label-caps">{categoryLabel}</span>
+      <h4 class="font-bold text-lg group-hover:text-primary transition-colors">{title}</h4>
+      <p class="text-on-surface-variant text-body-md line-clamp-2">{excerpt}</p>
+      <div class="flex flex-wrap gap-4 text-label-caps text-on-surface-variant">
+        <span class="flex items-center gap-1"><Icon name="schedule" size={16} /> {timeRange}</span>
+        <span class="flex items-center gap-1"><Icon name="location_on" size={16} /> {location}</span>
+      </div>
+    </div>
+  </a>
+)}
+
+{variant === 'compact' && (
+  <a href={href} class={`group flex items-center gap-4 ${className}`.trim()}>
+    <DateBadge date={startsAt} variant="tertiary" />
+    <div class="flex-1 space-y-1">
+      <h5 class="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2">{title}</h5>
+      <p class="text-on-surface-variant text-label-caps flex items-center gap-1">
+        <Icon name="location_on" size={14} /> {location}
+      </p>
+    </div>
+  </a>
+)}
+
+{variant === 'default' && (
+  <a href={href} class={`group block bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow ${className}`.trim()}>
+    {cover && (
+      <div class="h-48 overflow-hidden relative">
+        <img class="w-full h-full object-cover transition-transform group-hover:scale-110" src={cover} alt={coverAlt ?? ''} loading="lazy" />
+        <div class="absolute top-4 left-4 bg-primary px-3 py-1 rounded-lg text-on-primary text-label-caps">Agenda</div>
+      </div>
+    )}
+    <div class="p-6 space-y-4">
+      <div class="flex items-center gap-2 text-on-surface-variant text-label-caps">
+        <Icon name="calendar_today" size={16} /> {formatLong(startsAt)}
+      </div>
+      <h4 class="font-bold text-xl group-hover:text-primary transition-colors">{title}</h4>
+      <p class="text-on-surface-variant line-clamp-3">{excerpt}</p>
+      <div class="flex flex-wrap gap-4 text-label-caps text-on-surface-variant">
+        <span class="flex items-center gap-1"><Icon name="schedule" size={16} /> {timeRange}</span>
+        <span class="flex items-center gap-1"><Icon name="location_on" size={16} /> {location}</span>
+      </div>
+    </div>
+  </a>
+)}

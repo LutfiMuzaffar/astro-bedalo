@@ -1,0 +1,42 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import { formatLong } from '@lib/date';
+
+export async function getStaticPaths() {
+  const items = await getCollection('kkn-tulisan');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'kkn-tulisan'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+<PublicLayout title={`${item.data.title} - Refleksi KKN`} description={item.data.excerpt} active="kkn">
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'KKN', href: '/kkn' },
+        { label: 'Refleksi', href: '/kkn/refleksi' },
+        { label: item.data.title },
+      ]}
+    />
+    <header class="space-y-4 mb-10">
+      <p class="font-label-caps text-label-caps text-primary">{formatLong(item.data.publishedAt)} · Kelompok {item.data.kelompok}</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.title}</h1>
+      <p class="text-on-surface-variant">Ditulis oleh {item.data.author}</p>
+    </header>
+    <div class="prose prose-lg max-w-none [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:mt-8 [&_h2]:mb-4 [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-on-surface-variant">
+      <Content />
+    </div>
+  </article>
+</PublicLayout>

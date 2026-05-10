@@ -1,0 +1,41 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import MasonryGallery from '@components/sections/MasonryGallery.astro';
+import { formatLong } from '@lib/date';
+
+export async function getStaticPaths() {
+  const items = await getCollection('galeri-album');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'galeri-album'>;
+}
+
+const { item } = Astro.props;
+---
+<PublicLayout title={`${item.data.title} - Galeri`} description={item.data.subtitle} ogImage={item.data.cover} active="galeri">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Galeri', href: '/galeri' },
+        { label: item.data.title },
+      ]}
+    />
+    <header class="max-w-3xl space-y-4 mb-10">
+      <p class="font-label-caps text-label-caps text-primary">
+        {formatLong(item.data.publishedAt)} · {item.data.photos.length} foto
+      </p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">{item.data.title}</h1>
+      {item.data.subtitle && <p class="font-body-lg text-body-lg text-on-surface-variant">{item.data.subtitle}</p>}
+    </header>
+    <MasonryGallery photos={item.data.photos} columns={3} />
+  </div>
+</PublicLayout>

@@ -1,0 +1,46 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import { IMG_FARMING, IMG_RICE_FIELD } from '@lib/images';
+---
+<PublicLayout title="Pertanian Karst - Dusun Bedalo" active="potensi">
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Potensi', href: '/potensi' },
+        { label: 'Pertanian' },
+      ]}
+    />
+    <header class="space-y-4 mb-10">
+      <p class="font-label-caps text-label-caps text-primary">PRODUK BUMI</p>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Pertanian Karst Bedalo</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Lahan pertanian Bedalo menghasilkan labu, palawija, dan sayuran karst yang menjadi tulang punggung ekonomi warga.
+      </p>
+    </header>
+    <div class="aspect-[16/9] overflow-hidden rounded-[24px] mb-10">
+      <img src={IMG_FARMING} alt="Hasil panen labu kuning di lahan kebun." class="w-full h-full object-cover" />
+    </div>
+    <div class="prose prose-lg max-w-none space-y-4">
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-8 mb-4">Komoditas Unggulan</h2>
+      <ul class="grid sm:grid-cols-2 gap-4 list-none p-0">
+        <li class="bg-surface-container-lowest rounded-[24px] p-6 flex items-start gap-3"><Icon name="local_florist" class="text-primary mt-1" /><div><p class="font-bold">Labu Kuning</p><p class="text-body-md text-on-surface-variant">Komoditas musiman utama dengan masa panen Mei–Agustus.</p></div></li>
+        <li class="bg-surface-container-lowest rounded-[24px] p-6 flex items-start gap-3"><Icon name="grass" class="text-primary mt-1" /><div><p class="font-bold">Palawija</p><p class="text-body-md text-on-surface-variant">Jagung, kedelai, dan kacang tanah.</p></div></li>
+        <li class="bg-surface-container-lowest rounded-[24px] p-6 flex items-start gap-3"><Icon name="eco" class="text-primary mt-1" /><div><p class="font-bold">Cabai &amp; Sayuran</p><p class="text-body-md text-on-surface-variant">Hasil tani kelompok Wedang Lor.</p></div></li>
+        <li class="bg-surface-container-lowest rounded-[24px] p-6 flex items-start gap-3"><Icon name="forest" class="text-primary mt-1" /><div><p class="font-bold">Rempah Karst</p><p class="text-body-md text-on-surface-variant">Jahe, kunyit, dan empon-empon khas pegunungan karst.</p></div></li>
+      </ul>
+      <h2 class="font-headline-md text-headline-md text-on-surface mt-12 mb-4">Praktik Pertanian Lestari</h2>
+      <p class="text-body-lg text-on-surface-variant">
+        Petani Bedalo memadukan teknik tradisional dengan pendekatan agroforestri ringan. Pemanfaatan kompos
+        rumah tangga, irigasi tetes berbasis air karst, dan rotasi tanaman musiman menjaga kesuburan tanah
+        sekaligus mengurangi tekanan terhadap ekosistem.
+      </p>
+    </div>
+    <div class="rounded-[24px] overflow-hidden mt-12">
+      <img src={IMG_RICE_FIELD} alt="Sawah dan ladang petani Bedalo." class="w-full" />
+    </div>
+  </article>
+</PublicLayout>

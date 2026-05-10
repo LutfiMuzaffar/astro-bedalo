@@ -1,0 +1,49 @@
+/* Global styles — custom utilities lifted from the source <style> blocks.
+   Loaded once via BaseLayout so every page has identical visual primitives. */
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Topographic dot background (homepage, several profile pages) */
+.topo-bg {
+  background-image: radial-gradient(
+    circle at 2px 2px,
+    rgba(3, 62, 138, 0.05) 1px,
+    transparent 0
+  );
+  background-size: 40px 40px;
+}
+
+/* Organic blob mask (used on photo collages) */
+.organic-shape {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+/* Ambient navy-tinted card shadow */
+.ambient-shadow {
+  box-shadow: 0 8px 32px -8px rgba(2, 62, 138, 0.08);
+}
+
+/* Glass nav backdrop */
+.glass-nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Hidden scrollbar for horizontal scrollers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Fine dot overlay used on hero backgrounds */
+.pattern-overlay {
+  background-image: radial-gradient(#d7dae0 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+}

@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '@layouts/AdminLayout.astro';
+
+const proker = await getCollection('kkn-proker');
+const anggota = await getCollection('kkn-anggota');
+const tulisan = await getCollection('kkn-tulisan');
+const kenangan = await getCollection('kkn-kenangan');
+---
+<AdminLayout title="Kelola KKN" active="kkn">
+  <header class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div>
+      <h1 class="font-headline-md text-headline-md text-on-surface">Kelola Arsip KKN</h1>
+      <p class="text-on-surface-variant">Program kerja, anggota tim, refleksi, dan dinding kenangan.</p>
+    </div>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Program Kerja ({proker.length})</h2>
+      <ul class="space-y-3">
+        {proker.map((p) => (
+          <li class="flex items-start gap-3">
+            <img src={p.data.cover} alt="" class="w-12 h-12 rounded-xl object-cover" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{p.data.title}</p>
+              <p class="text-on-surface-variant text-label-caps">Kelompok {p.data.kelompok} · {p.data.status}</p>
+            </div>
+            <a href={`/kkn/program-kerja/${p.slug}`} class="text-primary text-label-caps">Lihat</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Anggota Tim ({anggota.length})</h2>
+      <ul class="space-y-3">
+        {anggota.map((a) => (
+          <li class="flex items-center gap-3">
+            <img src={a.data.photo} alt="" class="w-10 h-10 rounded-full object-cover" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{a.data.name}</p>
+              <p class="text-on-surface-variant text-label-caps truncate">{a.data.role}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Refleksi ({tulisan.length})</h2>
+      <ul class="space-y-2">
+        {tulisan.map((t) => (
+          <li class="flex justify-between items-center gap-3">
+            <div class="min-w-0">
+              <p class="font-bold text-on-surface truncate">{t.data.title}</p>
+              <p class="text-on-surface-variant text-label-caps">{t.data.author}</p>
+            </div>
+            <a href={`/kkn/refleksi/${t.slug}`} class="text-primary text-label-caps">Lihat</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Dinding Kenangan ({kenangan.length})</h2>
+      <ul class="space-y-2">
+        {kenangan.map((k) => (
+          <li>
+            <p class="font-bold text-on-surface">{k.data.author}</p>
+            <p class="text-on-surface-variant text-body-md line-clamp-2">{k.data.message}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</AdminLayout>

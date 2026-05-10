@@ -1,0 +1,92 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+import BeritaCard from '@components/cards/BeritaCard.astro';
+import { formatLong } from '@lib/date';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('berita')).filter((p) => !p.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'berita'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const all = (await getCollection('berita'))
+  .filter((p) => !p.data.draft && p.slug !== post.slug)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+<PublicLayout
+  title={`${post.data.title} - Berita Dusun Bedalo`}
+  description={post.data.excerpt}
+  ogImage={post.data.cover}
+  active="agenda-berita"
+>
+  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <Breadcrumb
+      class="mb-6"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Berita', href: '/berita' },
+        { label: post.data.title },
+      ]}
+    />
+    <header class="space-y-6 mb-10">
+      <span class="inline-block bg-primary text-on-primary px-4 py-1 rounded-full text-label-caps font-label-caps">
+        {post.data.category.toUpperCase()}
+      </span>
+      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">
+        {post.data.title}
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">{post.data.excerpt}</p>
+      <div class="flex flex-wrap items-center gap-4 text-on-surface-variant text-body-md">
+        <span class="flex items-center gap-2"><Icon name="person" /> {post.data.author}</span>
+        <span class="flex items-center gap-2"><Icon name="calendar_today" /> {formatLong(post.data.publishedAt)}</span>
+      </div>
+    </header>
+    <div class="aspect-[16/9] overflow-hidden rounded-[24px] mb-10">
+      <img class="w-full h-full object-cover" src={post.data.cover} alt={post.data.coverAlt} />
+    </div>
+    <div class="prose prose-lg max-w-none text-on-surface [&_h2]:font-headline-md [&_h2]:text-headline-md [&_h2]:text-on-surface [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:font-headline-sm [&_h3]:text-headline-sm [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:font-body-md [&_p]:text-body-lg [&_p]:text-on-surface-variant [&_p]:mb-4 [&_li]:text-body-md [&_li]:text-on-surface-variant [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_a]:text-primary [&_a]:underline">
+      <Content />
+    </div>
+    {post.data.tags.length > 0 && (
+      <div class="mt-12 flex flex-wrap gap-2">
+        {post.data.tags.map((tag) => (
+          <span class="inline-block bg-surface-container px-3 py-1 rounded-full text-label-caps text-on-surface-variant">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </article>
+
+  {all.length > 0 && (
+    <section class="mt-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-12">Berita Lainnya</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        {all.map((other) => (
+          <BeritaCard
+            href={`/berita/${other.slug}`}
+            title={other.data.title}
+            excerpt={other.data.excerpt}
+            cover={other.data.cover}
+            coverAlt={other.data.coverAlt}
+            publishedAt={other.data.publishedAt}
+            category={other.data.category}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</PublicLayout>

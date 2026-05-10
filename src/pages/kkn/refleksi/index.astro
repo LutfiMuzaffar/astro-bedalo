@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { formatLong } from '@lib/date';
+
+const tulisan = (await getCollection('kkn-tulisan'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+<PublicLayout title="Refleksi & Tulisan KKN - Dusun Bedalo" active="kkn">
+  <PageHero
+    eyebrow="CATATAN HARIAN"
+    title="Refleksi &amp; Tulisan KKN"
+    description="Catatan reflektif dari para anggota KKN selama mengabdi di Dusun Bedalo."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'KKN', href: '/kkn' },
+      { label: 'Refleksi' },
+    ]}
+  />
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-6">
+    {tulisan.map((t) => (
+      <a href={`/kkn/refleksi/${t.slug}`} class="group block bg-surface-container-lowest rounded-[24px] p-8 hover:shadow-xl transition-shadow">
+        <p class="font-label-caps text-on-surface-variant mb-2">{formatLong(t.data.publishedAt)} · {t.data.author} · Kelompok {t.data.kelompok}</p>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">{t.data.title}</h2>
+        <p class="text-on-surface-variant mt-3 line-clamp-3">{t.data.excerpt}</p>
+      </a>
+    ))}
+  </section>
+</PublicLayout>

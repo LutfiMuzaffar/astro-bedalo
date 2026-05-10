@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import WisataCard from '@components/cards/WisataCard.astro';
+
+const all = (await getCollection('wisata')).sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured)
+);
+---
+<PublicLayout title="Wisata Pantai & Karst - Dusun Bedalo" active="potensi">
+  <PageHero
+    eyebrow="WISATA ALAM"
+    title="Wisata Pantai &amp; Karst"
+    description="Empat pantai eksotis dan kawasan karst yang menjadi gerbang petualangan di Dusun Bedalo."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Potensi', href: '/potensi' },
+      { label: 'Wisata' },
+    ]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {all.map((w) => (
+        <WisataCard
+          href={`/potensi/wisata/${w.slug}`}
+          name={w.data.name}
+          tagline={w.data.tagline}
+          cover={w.data.cover}
+          coverAlt={w.data.coverAlt}
+          type={w.data.type}
+          facilities={w.data.facilities}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>

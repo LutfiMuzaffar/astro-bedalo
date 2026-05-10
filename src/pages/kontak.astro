@@ -1,0 +1,78 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Icon from '@components/ui/Icon.astro';
+import Web3FormsBase from '@components/forms/Web3FormsBase.astro';
+import FormField from '@components/forms/FormField.astro';
+import TextAreaField from '@components/forms/TextAreaField.astro';
+import SelectField from '@components/forms/SelectField.astro';
+import Button from '@components/ui/Button.astro';
+---
+<PublicLayout title="Kontak - Dusun Bedalo" active="kontak">
+  <PageHero
+    eyebrow="HUBUNGI KAMI"
+    title="Kontak Dusun Bedalo"
+    description="Tim Pemerintah Dusun siap menerima pertanyaan, saran, dan kabar dari warga maupun pengunjung."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Kontak' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="space-y-6">
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+          <div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center">
+            <Icon name="mail" />
+          </div>
+          <p class="font-label-caps text-on-surface-variant">EMAIL</p>
+          <a href="mailto:halo@dusunbedalo.id" class="font-body-md text-primary">halo@dusunbedalo.id</a>
+        </div>
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+          <div class="w-12 h-12 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center">
+            <Icon name="phone" />
+          </div>
+          <p class="font-label-caps text-on-surface-variant">TELEPON / WA</p>
+          <a href="tel:+6281234567890" class="font-body-md text-primary">+62 812-3456-7890</a>
+        </div>
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+          <div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center">
+            <Icon name="location_on" />
+          </div>
+          <p class="font-label-caps text-on-surface-variant">ALAMAT</p>
+          <p class="font-body-md text-on-surface">Balai Dusun Bedalo, Krambilsawit, Saptosari, Gunungkidul, DI Yogyakarta 55871.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <a href="/kirim-pesan" class="bg-primary text-on-primary text-center px-4 py-3 rounded-full font-label-caps text-label-caps">Kirim Pesan</a>
+          <a href="/kirim-dokumentasi" class="border-2 border-primary text-primary text-center px-4 py-3 rounded-full font-label-caps text-label-caps">Kirim Dokumentasi</a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-surface-container-lowest rounded-[24px] p-8 space-y-6">
+        <div>
+          <p class="font-label-caps text-label-caps text-primary mb-2">PERTANYAAN UMUM</p>
+          <h2 class="font-headline-md text-headline-md text-on-surface">Tinggalkan Pesan</h2>
+        </div>
+        <Web3FormsBase formName="Kontak Umum">
+          <div class="grid md:grid-cols-2 gap-4">
+            <FormField label="Nama Lengkap" name="name" required placeholder="Nama Anda" />
+            <FormField label="Email" name="email" type="email" required placeholder="email@contoh.com" />
+            <FormField label="No. WhatsApp" name="phone" type="tel" placeholder="081234567890" />
+            <SelectField
+              label="Topik"
+              name="topic"
+              required
+              options={[
+                { value: 'umum', label: 'Pertanyaan Umum' },
+                { value: 'wisata', label: 'Wisata & Kunjungan' },
+                { value: 'umkm', label: 'UMKM & Kerjasama' },
+                { value: 'kkn', label: 'Kerjasama KKN' },
+                { value: 'media', label: 'Media & Wartawan' },
+              ]}
+            />
+          </div>
+          <TextAreaField label="Pesan" name="message" required placeholder="Tuliskan pesan Anda di sini..." rows={6} />
+          <Button type="submit" variant="primary" size="lg" icon="send">Kirim Pesan</Button>
+        </Web3FormsBase>
+      </div>
+    </div>
+  </section>
+</PublicLayout>

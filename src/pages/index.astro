@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import HomeHero from '@components/sections/HomeHero.astro';
+import StatsStrip from '@components/sections/StatsStrip.astro';
+import ProfilPreview from '@components/sections/ProfilPreview.astro';
+import PotensiTeaser from '@components/sections/PotensiTeaser.astro';
+import KknMemoryTeaser from '@components/sections/KknMemoryTeaser.astro';
+import MasonryGallery from '@components/sections/MasonryGallery.astro';
+import BeritaCard from '@components/cards/BeritaCard.astro';
+import {
+  IMG_COASTAL_AERIAL,
+  IMG_BEACH_BOATS,
+  IMG_BEACH_HIDDEN,
+  IMG_FARMING,
+  IMG_HANDICRAFT,
+  IMG_GROUP_PORTRAIT,
+  IMG_VILLAGE_WORK,
+  IMG_VILLAGE_HOUSE,
+  IMG_OCEAN_HORIZON,
+  IMG_FESTIVAL,
+  IMG_RICE_FIELD,
+} from '@lib/images';
+
+const beritaPosts = (await getCollection('berita'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+<PublicLayout title="Dusun Bedalo - Keharmonisan Pesisir & Tradisi" active="home">
+  <HomeHero
+    primaryImage={IMG_COASTAL_AERIAL}
+    primaryAlt="Pesisir Gunungkidul dengan tebing karst, ombak biru, dan pantai pasir putih saat sore golden hour."
+    secondaryImage={IMG_BEACH_BOATS}
+    secondaryAlt="Perahu nelayan tradisional di pasir keemasan saat senja."
+  />
+
+  <StatsStrip
+    items={[
+      { value: '1,240+', label: 'PENDUDUK', icon: 'groups' },
+      { value: '85 Ha', label: 'LUAS WILAYAH', icon: 'landscape' },
+      { value: '4 Titik', label: 'DESTINASI PANTAI', icon: 'water_drop' },
+    ]}
+  />
+
+  <ProfilPreview />
+
+  <PotensiTeaser
+    wisata={{
+      href: '/potensi/wisata',
+      name: 'Wisata Pantai',
+      tagline: 'Menikmati deburan ombak dan pasir putih eksotis di Pantai Ngedan dan kawasan sekitarnya.',
+      cover: IMG_BEACH_HIDDEN,
+      coverAlt: 'Pantai tersembunyi dengan tebing karst, pasir putih dan air laut turkis.',
+    }}
+    pertanian={{
+      href: '/potensi/pertanian',
+      name: 'Labu & Palawija',
+      tagline: 'Hasil bumi unggulan dari lahan karst yang subur.',
+      cover: IMG_FARMING,
+      coverAlt: 'Hasil panen labu kuning dan palawija di lahan pertanian dusun.',
+    }}
+    kerajinan={{
+      href: '/potensi/kerajinan',
+      name: 'Kerajinan Tangan',
+      tagline: 'Pemanfaatan material alam pesisir menjadi produk bernilai seni tinggi oleh kelompok UMKM Desa.',
+      cover: IMG_HANDICRAFT,
+      coverAlt: 'Tangan pengrajin lokal menganyam serat alam pesisir.',
+    }}
+  />
+
+  <section class="mt-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-12 text-center">Agenda &amp; Berita Terbaru</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      {beritaPosts.map((post) => (
+        <BeritaCard
+          href={`/berita/${post.slug}`}
+          title={post.data.title}
+          excerpt={post.data.excerpt}
+          cover={post.data.cover}
+          coverAlt={post.data.coverAlt}
+          publishedAt={post.data.publishedAt}
+          category={post.data.category}
+        />
+      ))}
+    </div>
+  </section>
+
+  <KknMemoryTeaser
+    primaryImage={IMG_GROUP_PORTRAIT}
+    primaryAlt="Foto kelompok mahasiswa KKN bersama anak-anak desa, hangat dan nostalgik."
+    secondaryImage={IMG_VILLAGE_WORK}
+    secondaryAlt="Mahasiswa KKN dan warga bekerja sama di proyek komunitas."
+  />
+
+  <section class="mt-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <div class="text-center mb-16">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Galeri Kehidupan Desa</h2>
+      <div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+    </div>
+    <MasonryGallery
+      photos={[
+        { src: IMG_VILLAGE_HOUSE, alt: 'Rumah joglo tradisional di tengah hijau pepohonan tropis.' },
+        { src: IMG_OCEAN_HORIZON, alt: 'Senja di laut dengan siluet perahu nelayan.' },
+        { src: IMG_FESTIVAL, alt: 'Acara adat dengan pakaian tradisional warna-warni.' },
+        { src: IMG_RICE_FIELD, alt: 'Lanskap karst Gunungkidul dengan kabut pagi.' },
+        { src: IMG_BEACH_BOATS, alt: 'Perahu nelayan kayu di pasir keemasan.' },
+        { src: IMG_FARMING, alt: 'Petani memetik hasil bumi dari lahan kebun.' },
+      ]}
+    />
+  </section>
+</PublicLayout>

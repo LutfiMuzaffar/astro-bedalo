@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import AdminSidebar from '@components/admin/AdminSidebar.astro';
+import AdminTopBar from '@components/admin/AdminTopBar.astro';
+
+interface Props {
+  title: string;
+  active?: 'dashboard' | 'kontak' | 'agenda-berita' | 'potensi' | 'galeri' | 'kkn' | 'pengaturan';
+  searchPlaceholder?: string;
+}
+
+const { title, active = 'dashboard', searchPlaceholder } = Astro.props;
+---
+<BaseLayout
+  title={title}
+  bodyClass="bg-background text-on-surface antialiased min-h-screen flex font-body-md text-body-md"
+>
+  <AdminSidebar active={active} />
+  <main class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
+    <AdminTopBar searchPlaceholder={searchPlaceholder} />
+    <div class="flex-1 p-8 bg-surface-container-low overflow-x-hidden">
+      <slot />
+    </div>
+  </main>
+</BaseLayout>

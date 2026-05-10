@@ -1,0 +1,46 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Web3FormsBase from '@components/forms/Web3FormsBase.astro';
+import FormField from '@components/forms/FormField.astro';
+import TextAreaField from '@components/forms/TextAreaField.astro';
+import SelectField from '@components/forms/SelectField.astro';
+import Button from '@components/ui/Button.astro';
+---
+<PublicLayout title="Kirim Pesan - Dusun Bedalo" active="kontak">
+  <PageHero
+    eyebrow="ASPIRASI WARGA"
+    title="Kirim Pesan untuk Dusun"
+    description="Saran, keluhan, atau ide warga dan pengunjung. Tim Pemerintah Dusun akan menindaklanjuti dalam 3 hari kerja."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Kontak', href: '/kontak' },
+      { label: 'Kirim Pesan' },
+    ]}
+  />
+  <section class="max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="bg-surface-container-lowest rounded-[24px] p-8">
+      <Web3FormsBase formName="Kirim Pesan Warga">
+        <div class="grid md:grid-cols-2 gap-4">
+          <FormField label="Nama" name="name" required placeholder="Nama Anda" />
+          <FormField label="Email" name="email" type="email" required placeholder="email@contoh.com" />
+          <FormField label="No. WhatsApp" name="phone" type="tel" placeholder="081234567890" />
+          <SelectField
+            label="Kategori Pesan"
+            name="category"
+            required
+            options={[
+              { value: 'aspirasi', label: 'Aspirasi & Saran' },
+              { value: 'keluhan', label: 'Keluhan Layanan' },
+              { value: 'ide', label: 'Ide Program' },
+              { value: 'lainnya', label: 'Lainnya' },
+            ]}
+          />
+        </div>
+        <FormField label="Subjek" name="subject" required placeholder="Singkat dan jelas" />
+        <TextAreaField label="Isi Pesan" name="message" required rows={8} placeholder="Tuliskan pesan Anda secara detail..." />
+        <Button type="submit" variant="primary" size="lg" icon="send">Kirim Pesan</Button>
+      </Web3FormsBase>
+    </div>
+  </section>
+</PublicLayout>

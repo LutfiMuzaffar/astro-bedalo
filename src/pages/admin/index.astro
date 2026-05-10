@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '@layouts/AdminLayout.astro';
+
+const berita = await getCollection('berita');
+const agenda = await getCollection('agenda');
+const pengumuman = await getCollection('pengumuman');
+const wisata = await getCollection('wisata');
+const umkm = await getCollection('umkm');
+const proker = await getCollection('kkn-proker');
+
+const totalContent = berita.length + agenda.length + pengumuman.length + wisata.length + umkm.length + proker.length;
+---
+<AdminLayout title="Dashboard Admin" active="dashboard" searchPlaceholder="Cari konten...">
+  <header class="mb-8">
+    <h1 class="font-headline-md text-headline-md text-on-surface">Dashboard Admin</h1>
+    <p class="text-on-surface-variant">Ringkasan konten Dusun Bedalo, kelola dari sini.</p>
+  </header>
+
+  <section class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+      <p class="font-label-caps text-on-surface-variant">TOTAL KONTEN</p>
+      <p class="font-headline-md text-primary">{totalContent}</p>
+      <p class="text-on-surface-variant text-body-md">Seluruh artikel, agenda, dan koleksi.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+      <p class="font-label-caps text-on-surface-variant">BERITA AKTIF</p>
+      <p class="font-headline-md text-tertiary">{berita.filter((b) => !b.data.draft).length}</p>
+      <p class="text-on-surface-variant text-body-md">Yang dipublikasikan saat ini.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+      <p class="font-label-caps text-on-surface-variant">AGENDA</p>
+      <p class="font-headline-md text-secondary">{agenda.filter((a) => a.data.status !== 'past').length}</p>
+      <p class="text-on-surface-variant text-body-md">Akan datang.</p>
+    </div>
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-2">
+      <p class="font-label-caps text-on-surface-variant">UMKM</p>
+      <p class="font-headline-md text-on-secondary-container">{umkm.length}</p>
+      <p class="text-on-surface-variant text-body-md">Pelaku UMKM terdaftar.</p>
+    </div>
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="font-headline-sm text-headline-sm">Kelola Konten</h2>
+      </div>
+      <ul class="divide-y divide-outline-variant/30">
+        <li class="py-3 flex justify-between items-center"><span>Berita ({berita.length})</span><a class="text-primary" href="/admin/agenda-berita">Kelola →</a></li>
+        <li class="py-3 flex justify-between items-center"><span>Agenda ({agenda.length})</span><a class="text-primary" href="/admin/agenda-berita">Kelola →</a></li>
+        <li class="py-3 flex justify-between items-center"><span>Pengumuman ({pengumuman.length})</span><a class="text-primary" href="/admin/agenda-berita">Kelola →</a></li>
+        <li class="py-3 flex justify-between items-center"><span>Wisata ({wisata.length})</span><a class="text-primary" href="/admin/potensi">Kelola →</a></li>
+        <li class="py-3 flex justify-between items-center"><span>UMKM ({umkm.length})</span><a class="text-primary" href="/admin/potensi">Kelola →</a></li>
+        <li class="py-3 flex justify-between items-center"><span>Program Kerja KKN ({proker.length})</span><a class="text-primary" href="/admin/kkn">Kelola →</a></li>
+      </ul>
+    </div>
+    <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Aktivitas Terbaru</h2>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <span class="material-symbols-outlined text-primary mt-1">edit_note</span>
+          <div>
+            <p class="font-bold text-on-surface">Berita baru dipublikasikan</p>
+            <p class="text-on-surface-variant text-body-md">"Festival Laut Bedalo 2025" oleh Pemerintah Dusun.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="material-symbols-outlined text-tertiary mt-1">event</span>
+          <div>
+            <p class="font-bold text-on-surface">Agenda baru ditambahkan</p>
+            <p class="text-on-surface-variant text-body-md">"Musyawarah Anggaran 2025"</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="material-symbols-outlined text-secondary mt-1">photo_library</span>
+          <div>
+            <p class="font-bold text-on-surface">Album galeri diunggah</p>
+            <p class="text-on-surface-variant text-body-md">"Festival Pesisir 2024" dengan 12 foto.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</AdminLayout>

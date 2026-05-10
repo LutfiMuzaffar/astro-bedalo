@@ -1,0 +1,95 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import { FOOTER_PRIMARY_LINKS, FOOTER_LAYANAN_LINKS } from '@lib/nav';
+---
+<!-- Footer (Shared Component) -->
+<footer class="mt-section-gap bg-on-secondary-container text-on-primary">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div class="space-y-4">
+      <p class="font-headline-md text-headline-md font-bold text-on-primary">Dusun Bedalo</p>
+      <p class="font-body-md text-body-md text-surface-variant/80 max-w-sm">
+        Dusun pesisir nan asri di Krambilsawit, Saptosari, Gunungkidul, di mana
+        tradisi dan keindahan alam berpadu.
+      </p>
+      <div class="flex items-center gap-2 text-surface-variant/80">
+        <Icon name="location_on" />
+        <span class="font-body-md text-body-md">Krambilsawit, Saptosari, Gunungkidul</span>
+      </div>
+      <div class="flex items-center gap-2 text-surface-variant/80">
+        <Icon name="mail" />
+        <a href="mailto:info@bedalo.desa.id" class="font-body-md text-body-md hover:text-on-primary transition-colors">
+          info@bedalo.desa.id
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <p class="font-label-caps text-label-caps text-on-tertiary-container font-bold">JELAJAHI</p>
+        <ul class="space-y-2">
+          {FOOTER_PRIMARY_LINKS.map((item) => (
+            <li>
+              <a
+                class="font-body-md text-body-md text-surface-variant/80 hover:text-surface-bright hover:translate-x-1 transition-all duration-300 inline-block"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <p class="font-label-caps text-label-caps text-on-tertiary-container font-bold">LAYANAN</p>
+        <ul class="space-y-2">
+          {FOOTER_LAYANAN_LINKS.map((item) => (
+            <li>
+              <a
+                class="font-body-md text-body-md text-surface-variant/80 hover:text-surface-bright hover:translate-x-1 transition-all duration-300 inline-block"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="font-label-caps text-label-caps text-on-tertiary-container font-bold">SOSIAL MEDIA</p>
+      <div class="flex gap-4">
+        <a
+          class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-colors"
+          href="/media-sosial"
+          aria-label="Instagram"
+        >
+          <Icon name="photo_camera" />
+        </a>
+        <a
+          class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-colors"
+          href="/galeri/video"
+          aria-label="YouTube"
+        >
+          <Icon name="video_library" />
+        </a>
+        <a
+          class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-colors"
+          href="mailto:info@bedalo.desa.id"
+          aria-label="Email"
+        >
+          <Icon name="mail" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="font-body-md text-body-md text-surface-variant/60">
+      © {new Date().getFullYear()} Pemerintah Dusun Bedalo. Seluruh Hak Cipta Dilindungi.
+    </p>
+    <div class="flex gap-6">
+      <a class="text-surface-variant/60 hover:text-white text-body-md" href="/peta-situs">Peta Situs</a>
+      <a class="text-surface-variant/60 hover:text-white text-body-md" href="/kontak">Kontak Kami</a>
+    </div>
+  </div>
+</footer>

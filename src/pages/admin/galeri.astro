@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '@layouts/AdminLayout.astro';
+import { formatLong } from '@lib/date';
+
+const albums = (await getCollection('galeri-album')).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+---
+<AdminLayout title="Kelola Galeri" active="galeri">
+  <header class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div>
+      <h1 class="font-headline-md text-headline-md text-on-surface">Kelola Galeri</h1>
+      <p class="text-on-surface-variant">{albums.length} album foto Dusun Bedalo.</p>
+    </div>
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps">+ Album Baru</button>
+  </header>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {albums.map((a) => (
+      <article class="bg-surface-container-lowest rounded-[24px] overflow-hidden">
+        <div class="aspect-[4/3] overflow-hidden">
+          <img src={a.data.cover} alt={a.data.coverAlt} class="w-full h-full object-cover" />
+        </div>
+        <div class="p-4 space-y-2">
+          <h3 class="font-bold text-on-surface">{a.data.title}</h3>
+          <p class="text-on-surface-variant text-label-caps">{formatLong(a.data.publishedAt)} · {a.data.photos.length} foto</p>
+          <div class="flex gap-2 mt-2">
+            <a href={`/galeri/${a.slug}`} class="text-primary text-label-caps">Lihat</a>
+            <button class="text-on-surface-variant text-label-caps">Edit</button>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</AdminLayout>

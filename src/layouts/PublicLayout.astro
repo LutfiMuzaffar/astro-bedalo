@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TopNav from '@components/nav/TopNav.astro';
+import Footer from '@components/nav/Footer.astro';
+import MobileBottomNav from '@components/nav/MobileBottomNav.astro';
+import type { NavKey } from '@lib/nav';
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: NavKey;
+  bodyClass?: string;
+  showFooter?: boolean;
+  showMobileNav?: boolean;
+  mainClass?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  active = 'home',
+  bodyClass,
+  showFooter = true,
+  showMobileNav = false,
+  mainClass = 'pt-24 overflow-hidden',
+  ogImage,
+} = Astro.props;
+---
+<BaseLayout title={title} description={description} bodyClass={bodyClass} ogImage={ogImage}>
+  <TopNav active={active} />
+  <main class={mainClass}>
+    <slot />
+  </main>
+  {showFooter && <Footer />}
+  {showMobileNav && <MobileBottomNav active={active} />}
+</BaseLayout>

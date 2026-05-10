@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import BeritaCard from '@components/cards/BeritaCard.astro';
+import PengumumanCard from '@components/cards/PengumumanCard.astro';
+import SidebarSearch from '@components/sections/SidebarSearch.astro';
+import CategoryFilter from '@components/sections/CategoryFilter.astro';
+
+const posts = (await getCollection('berita'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p.id !== featured?.id);
+
+const categoryCounts: Record<string, number> = { semua: posts.length };
+for (const p of posts) {
+  categoryCounts[p.data.category] = (categoryCounts[p.data.category] ?? 0) + 1;
+}
+
+const categories = [
+  { key: 'semua', label: 'Semua', count: categoryCounts.semua ?? 0 },
+  { key: 'pembangunan', label: 'Pembangunan', count: categoryCounts.pembangunan ?? 0 },
+  { key: 'lingkungan', label: 'Lingkungan', count: categoryCounts.lingkungan ?? 0 },
+  { key: 'sosial', label: 'Sosial', count: categoryCounts.sosial ?? 0 },
+  { key: 'wisata', label: 'Wisata', count: categoryCounts.wisata ?? 0 },
+  { key: 'umum', label: 'Umum', count: categoryCounts.umum ?? 0 },
+];
+
+const populer = posts.slice(0, 5);
+
+const pengumuman = (await getCollection('pengumuman'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+<PublicLayout title="Berita Dusun Bedalo" active="agenda-berita">
+  <PageHero
+    eyebrow="KABAR TERKINI"
+    title="Berita Dusun Bedalo"
+    description="Kabar terbaru dari pemerintahan, komunitas, dan lingkungan Dusun Bedalo."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Berita' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-12">
+        {featured && (
+          <BeritaCard
+            href={`/berita/${featured.slug}`}
+            title={featured.data.title}
+            excerpt={featured.data.excerpt}
+            cover={featured.data.cover}
+            coverAlt={featured.data.coverAlt}
+            publishedAt={featured.data.publishedAt}
+            category={featured.data.category}
+            variant="featured"
+          />
+        )}
+
+        <CategoryFilter items={categories} active="semua" baseHref="/berita/kategori" />
+
+        <div class="grid md:grid-cols-2 gap-6">
+          {rest.map((post) => (
+            <BeritaCard
+              href={`/berita/${post.slug}`}
+              title={post.data.title}
+              excerpt={post.data.excerpt}
+              cover={post.data.cover}
+              coverAlt={post.data.coverAlt}
+              publishedAt={post.data.publishedAt}
+              category={post.data.category}
+            />
+          ))}
+        </div>
+      </div>
+
+      <aside class="space-y-8 lg:sticky lg:top-28 lg:self-start">
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+          <h3 class="font-headline-sm text-headline-sm">Pencarian</h3>
+          <SidebarSearch />
+        </div>
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+          <h3 class="font-headline-sm text-headline-sm">Berita Populer</h3>
+          <ul class="space-y-4">
+            {populer.map((post) => (
+              <li>
+                <BeritaCard
+                  href={`/berita/${post.slug}`}
+                  title={post.data.title}
+                  excerpt={post.data.excerpt}
+                  cover={post.data.cover}
+                  coverAlt={post.data.coverAlt}
+                  publishedAt={post.data.publishedAt}
+                  category={post.data.category}
+                  variant="compact"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+          <h3 class="font-headline-sm text-headline-sm">Pengumuman</h3>
+          <ul class="space-y-3">
+            {pengumuman.map((p) => (
+              <li>
+                <PengumumanCard
+                  href={`/pengumuman/${p.slug}`}
+                  title={p.data.title}
+                  excerpt={p.data.excerpt}
+                  publishedAt={p.data.publishedAt}
+                  urgency={p.data.urgency}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</PublicLayout>

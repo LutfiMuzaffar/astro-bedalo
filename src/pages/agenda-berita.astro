@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import AgendaCard from '@components/cards/AgendaCard.astro';
+import BeritaCard from '@components/cards/BeritaCard.astro';
+import PengumumanCard from '@components/cards/PengumumanCard.astro';
+
+const berita = (await getCollection('berita'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 6);
+
+const agenda = (await getCollection('agenda'))
+  .filter((a) => a.data.status !== 'past')
+  .sort((a, b) => a.data.startsAt.getTime() - b.data.startsAt.getTime())
+  .slice(0, 4);
+
+const pengumuman = (await getCollection('pengumuman'))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 4);
+---
+<PublicLayout title="Agenda & Berita - Dusun Bedalo" active="agenda-berita">
+  <PageHero
+    eyebrow="UPDATE TERKINI"
+    title="Agenda & Berita"
+    description="Update lengkap dari pemerintah dan komunitas Dusun Bedalo: agenda mendatang, berita terbaru, dan pengumuman resmi."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Agenda & Berita' }]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16 space-y-section-gap">
+    <div class="space-y-6">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Agenda Mendatang</h2>
+        <a href="/agenda" class="text-primary font-bold hover:underline">Lihat Semua Agenda →</a>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {agenda.map((a) => (
+          <AgendaCard
+            href={`/agenda/${a.slug}`}
+            title={a.data.title}
+            excerpt={a.data.excerpt}
+            startsAt={a.data.startsAt}
+            endsAt={a.data.endsAt}
+            location={a.data.location}
+            category={a.data.category}
+            variant="horizontal"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-6 mt-section-gap">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Berita Terbaru</h2>
+        <a href="/berita" class="text-primary font-bold hover:underline">Lihat Semua Berita →</a>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        {berita.map((post) => (
+          <BeritaCard
+            href={`/berita/${post.slug}`}
+            title={post.data.title}
+            excerpt={post.data.excerpt}
+            cover={post.data.cover}
+            coverAlt={post.data.coverAlt}
+            publishedAt={post.data.publishedAt}
+            category={post.data.category}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-6 mt-section-gap">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <h2 class="font-headline-md text-headline-md text-on-surface">Pengumuman</h2>
+        <a href="/pengumuman" class="text-primary font-bold hover:underline">Lihat Semua →</a>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        {pengumuman.map((p) => (
+          <PengumumanCard
+            href={`/pengumuman/${p.slug}`}
+            title={p.data.title}
+            excerpt={p.data.excerpt}
+            publishedAt={p.data.publishedAt}
+            urgency={p.data.urgency}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</PublicLayout>

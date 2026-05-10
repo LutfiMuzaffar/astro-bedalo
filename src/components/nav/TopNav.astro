@@ -1,0 +1,46 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import { PUBLIC_NAV, type NavKey } from '@lib/nav';
+
+interface Props {
+  active?: NavKey;
+}
+
+const { active = 'home' } = Astro.props;
+---
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md dark:bg-surface-dim/80 shadow-[0_4px_20px_-4px_rgba(2,62,138,0.08)]">
+  <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+    <a href="/" class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight">
+      Dusun Bedalo
+    </a>
+    <div class="hidden md:flex gap-8 items-center font-body-md text-body-md">
+      {PUBLIC_NAV.map((item) =>
+        item.key === active ? (
+          <a
+            class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1"
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ) : (
+          <a
+            class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors"
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        )
+      )}
+    </div>
+    <a
+      href="/kontak"
+      class="hidden md:inline-flex items-center justify-center bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps hover:opacity-90 transition-opacity"
+    >
+      Hubungi Kami
+    </a>
+    <button class="md:hidden text-primary" aria-label="Buka menu">
+      <Icon name="menu" size={28} />
+    </button>
+  </div>
+</nav>

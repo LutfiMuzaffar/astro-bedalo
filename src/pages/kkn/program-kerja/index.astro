@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import KknProkerCard from '@components/cards/KknProkerCard.astro';
+
+const proker = await getCollection('kkn-proker');
+---
+<PublicLayout title="Program Kerja KKN - Dusun Bedalo" active="kkn">
+  <PageHero
+    eyebrow="PROGRAM KERJA"
+    title="Inisiatif KKN di Bedalo"
+    description="Daftar lengkap program kerja KKN di Dusun Bedalo, dari digitalisasi UMKM hingga revitalisasi posyandu."
+    breadcrumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'KKN', href: '/kkn' },
+      { label: 'Program Kerja' },
+    ]}
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {proker.map((p) => (
+        <KknProkerCard
+          href={`/kkn/program-kerja/${p.slug}`}
+          title={p.data.title}
+          summary={p.data.summary}
+          cover={p.data.cover}
+          coverAlt={p.data.coverAlt}
+          kelompok={p.data.kelompok}
+          period={p.data.period}
+          status={p.data.status}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>

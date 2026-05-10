@@ -1,0 +1,53 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  name: string;
+  type: string;
+  description: string;
+  photo?: string;
+  photoAlt?: string;
+  address?: string;
+  class?: string;
+}
+
+const { name, type, description, photo, photoAlt, address, class: className = '' } = Astro.props;
+
+const typeLabel = {
+  pendidikan: 'Pendidikan',
+  kesehatan: 'Kesehatan',
+  ibadah: 'Ibadah',
+  olahraga: 'Olahraga',
+  pemerintahan: 'Pemerintahan',
+  lainnya: 'Lainnya',
+}[type] ?? type;
+
+const typeIcon = {
+  pendidikan: 'school',
+  kesehatan: 'medical_services',
+  ibadah: 'mosque',
+  olahraga: 'sports_soccer',
+  pemerintahan: 'account_balance',
+  lainnya: 'place',
+}[type] ?? 'place';
+---
+<article class={`bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-shadow group ${className}`.trim()}>
+  {photo && (
+    <div class="aspect-[16/10] overflow-hidden">
+      <img class="w-full h-full object-cover transition-transform group-hover:scale-110" src={photo} alt={photoAlt ?? name} loading="lazy" />
+    </div>
+  )}
+  <div class="p-6 space-y-3">
+    <div class="flex items-center gap-2 text-primary">
+      <Icon name={typeIcon} />
+      <span class="text-label-caps font-label-caps">{typeLabel.toUpperCase()}</span>
+    </div>
+    <h4 class="font-headline-sm text-headline-sm text-on-surface">{name}</h4>
+    <p class="text-on-surface-variant text-body-md">{description}</p>
+    {address && (
+      <p class="flex items-center gap-2 text-on-surface-variant text-label-caps">
+        <Icon name="location_on" size={16} /> {address}
+      </p>
+    )}
+  </div>
+</article>

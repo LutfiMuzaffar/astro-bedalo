@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import AdminLayout from '@layouts/AdminLayout.astro';
+import { formatLong } from '@lib/date';
+
+const berita = (await getCollection('berita')).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+const agenda = (await getCollection('agenda')).sort(
+  (a, b) => b.data.startsAt.getTime() - a.data.startsAt.getTime()
+);
+const pengumuman = (await getCollection('pengumuman')).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+---
+<AdminLayout title="Kelola Agenda & Berita" active="agenda-berita" searchPlaceholder="Cari berita...">
+  <header class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div>
+      <h1 class="font-headline-md text-headline-md text-on-surface">Kelola Agenda &amp; Berita</h1>
+      <p class="text-on-surface-variant">Daftar lengkap berita, agenda, dan pengumuman.</p>
+    </div>
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-full font-label-caps text-label-caps">+ Tambah Konten</button>
+  </header>
+
+  <div class="grid lg:grid-cols-2 gap-6">
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Berita ({berita.length})</h2>
+      <ul class="divide-y divide-outline-variant/30">
+        {berita.map((b) => (
+          <li class="py-3 flex justify-between items-center gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{b.data.title}</p>
+              <p class="text-on-surface-variant text-label-caps">{formatLong(b.data.publishedAt)} · {b.data.category}{b.data.draft ? ' · DRAF' : ''}</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <a href={`/berita/${b.slug}`} class="text-primary text-label-caps">Lihat</a>
+              <button class="text-on-surface-variant text-label-caps">Edit</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4">
+      <h2 class="font-headline-sm text-headline-sm">Agenda ({agenda.length})</h2>
+      <ul class="divide-y divide-outline-variant/30">
+        {agenda.map((a) => (
+          <li class="py-3 flex justify-between items-center gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{a.data.title}</p>
+              <p class="text-on-surface-variant text-label-caps">{formatLong(a.data.startsAt)} · {a.data.category} · {a.data.status}</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <a href={`/agenda/${a.slug}`} class="text-primary text-label-caps">Lihat</a>
+              <button class="text-on-surface-variant text-label-caps">Edit</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-[24px] p-6 space-y-4 lg:col-span-2">
+      <h2 class="font-headline-sm text-headline-sm">Pengumuman ({pengumuman.length})</h2>
+      <ul class="divide-y divide-outline-variant/30">
+        {pengumuman.map((p) => (
+          <li class="py-3 flex justify-between items-center gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-on-surface truncate">{p.data.title}</p>
+              <p class="text-on-surface-variant text-label-caps">{formatLong(p.data.publishedAt)} · {p.data.urgency} · {p.data.issuer}</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <a href={`/pengumuman/${p.slug}`} class="text-primary text-label-caps">Lihat</a>
+              <button class="text-on-surface-variant text-label-caps">Edit</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</AdminLayout>

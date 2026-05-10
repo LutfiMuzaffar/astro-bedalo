@@ -1,0 +1,59 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+type Variant = 'primary' | 'ghost' | 'on-secondary' | 'pill';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  icon?: string;
+  iconPosition?: 'leading' | 'trailing';
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'button',
+  icon,
+  iconPosition = 'trailing',
+  class: className = '',
+  ariaLabel,
+} = Astro.props;
+
+const sizeClass = {
+  sm: 'px-4 py-2 text-body-md',
+  md: 'px-6 py-3 text-body-md',
+  lg: 'px-8 py-4 text-[18px] font-headline-sm',
+}[size];
+
+const variantClass = {
+  primary:
+    'bg-primary text-on-primary rounded-full hover:opacity-90 transition-opacity font-label-caps text-label-caps',
+  ghost:
+    'border-2 border-on-secondary-container text-on-secondary-container rounded-[24px] hover:bg-on-secondary-container/5 transition-all',
+  'on-secondary':
+    'bg-on-secondary-container text-on-primary-container rounded-[24px] hover:shadow-lg transition-all',
+  pill:
+    'bg-primary-container text-on-primary-container rounded-full hover:opacity-90 transition-opacity font-label-caps text-label-caps',
+}[variant];
+
+const Tag = href ? 'a' : 'button';
+const props: Record<string, string> = {};
+if (href) props.href = href;
+else props.type = type;
+if (ariaLabel) props['aria-label'] = ariaLabel;
+---
+<Tag
+  {...props}
+  class={`inline-flex items-center justify-center gap-2 ${sizeClass} ${variantClass} ${className}`.trim()}
+>
+  {icon && iconPosition === 'leading' && <Icon name={icon} />}
+  <slot />
+  {icon && iconPosition === 'trailing' && <Icon name={icon} />}
+</Tag>
