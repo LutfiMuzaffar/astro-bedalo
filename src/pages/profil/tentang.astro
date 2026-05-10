@@ -1,0 +1,110 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import Button from '@components/ui/Button.astro';
+import { IMG_VILLAGE_AERIAL, IMG_RICE_FIELD, IMG_GROUP_PORTRAIT } from '@lib/images';
+
+const bands = [
+  {
+    title: 'Karakter Pesisir-Agraris',
+    body: 'Masyarakat Bedalo mewarisi ketangguhan pelaut dan ketekunan petani. Di musim tanam, hamparan ladang menghijau, sementara pesisir menyuguhkan hasil tangkapan yang melimpah. Dua karakter ini menyatu, membentuk mata pencaharian ganda yang saling melengkapi dan memastikan ketahanan pangan lokal.',
+    photo: IMG_RICE_FIELD,
+    photoAlt: 'Transisi sawah berundak ke laut tenang.',
+    photoLeft: false,
+  },
+  {
+    title: 'Nilai Masyarakat & Gotong Royong',
+    body: 'Gotong royong bukanlah sekadar istilah, melainkan denyut nadi kehidupan sehari-hari di Bedalo. Dari membangun fasilitas desa hingga menyelenggarakan upacara adat, kebersamaan menjadi kunci penyelesaian masalah. Nilai-nilai kekeluargaan ini terus dijaga, memastikan setiap warga merasa memiliki dan diayomi.',
+    photo: IMG_GROUP_PORTRAIT,
+    photoAlt: 'Warga bergotong royong di ruang terbuka komunitas.',
+    photoLeft: true,
+  },
+];
+
+const quotes = [
+  { body: '"Bedalo adalah rumah, di mana laut dan tanah memberi kehidupan. Kami bersyukur setiap hari."', name: 'Pak Supardi', role: 'Ketua RT 01' },
+  { body: '"Melihat anak-anak muda mulai peduli pada pariwisata desa membuat saya yakin akan masa depan."', name: 'Bu Tini', role: 'Penggiat UMKM' },
+  { body: '"Harmoni alam di sini mengajarkan kita untuk selalu menjaga keseimbangan dan kelestarian."', name: 'Budi Santoso', role: 'Pemuda Karang Taruna' },
+];
+---
+<PublicLayout title="Tentang Dusun Bedalo" active="profil" mainClass="pt-24 pb-section-gap overflow-hidden">
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-12 md:pt-24">
+    <div class="flex flex-col md:flex-row gap-12 items-center">
+      <div class="w-full md:w-1/2">
+        <img
+          class="w-full h-[400px] md:h-[600px] object-cover rounded-[24px] shadow-[0_8px_30px_-4px_rgba(2,62,138,0.12)]"
+          src={IMG_VILLAGE_AERIAL}
+          alt="Pemandangan pagi pesisir desa Bedalo dengan ladang hijau dan ombak biru."
+        />
+      </div>
+      <div class="w-full md:w-1/2 space-y-6">
+        <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-secondary-fixed">
+          Mengenal Lebih Dekat Dusun Bedalo
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant text-justify">
+          Lebih dari sekadar titik di peta, Dusun Bedalo adalah harmoni antara daratan dan lautan. Terletak di pesisir selatan, kehidupan di sini mengalir mengikuti irama alam. Masyarakat kami menjaga warisan agraris sambil memeluk potensi laut yang luas, menciptakan sebuah komunitas yang tangguh, ramah, dan kaya akan cerita.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative mt-section-gap py-20 bg-primary-fixed/20">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+      <div class="max-w-3xl mx-auto text-center space-y-6">
+        <span class="inline-block px-4 py-1.5 bg-primary-fixed text-on-primary-fixed font-label-caps text-label-caps rounded-lg uppercase tracking-widest">
+          Jati Diri
+        </span>
+        <h2 class="font-headline-md text-headline-md text-on-secondary-fixed">Jembatan Antara Bukit dan Laut</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          Secara administratif, Dusun Bedalo merupakan bagian integral dari Desa Krambilsawit, Kecamatan Saptosari, Kabupaten Gunungkidul. Posisinya yang strategis menjadikan Bedalo sebagai titik temu unik—di mana perbukitan karst yang khas berbatasan langsung dengan birunya Samudra Hindia, membentuk bentang alam yang memukau dan karakter masyarakat yang adaptif.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-section-gap space-y-section-gap">
+    {bands.map((b) => (
+      <div class="flex flex-col md:flex-row gap-12 items-center">
+        <div class={`w-full md:w-1/2 space-y-6 ${b.photoLeft ? 'order-2' : 'order-2 md:order-1'}`}>
+          <h3 class="font-headline-sm text-headline-sm text-on-secondary-fixed">{b.title}</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">{b.body}</p>
+        </div>
+        <div class={`w-full md:w-1/2 ${b.photoLeft ? 'order-1' : 'order-1 md:order-2'}`}>
+          <img
+            class="w-full h-[350px] object-cover rounded-[24px] shadow-[0_8px_30px_-4px_rgba(2,62,138,0.08)]"
+            src={b.photo}
+            alt={b.photoAlt}
+          />
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-section-gap">
+    <h2 class="font-headline-md text-headline-md text-on-secondary-fixed text-center mb-12">Suara dari Bedalo</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {quotes.map((q) => (
+        <div class="bg-surface-container-lowest p-8 rounded-[24px] shadow-[0_4px_20px_-4px_rgba(2,62,138,0.05)] border border-surface-variant/50 relative">
+          <Icon name="format_quote" filled class="absolute top-6 right-6 text-primary/20 text-4xl" />
+          <p class="font-body-lg text-body-lg text-on-surface italic mb-6">{q.body}</p>
+          <div>
+            <p class="font-headline-sm text-headline-sm text-on-secondary-fixed text-base">{q.name}</p>
+            <p class="font-body-md text-body-md text-on-surface-variant text-sm">{q.role}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-section-gap py-24 bg-secondary-fixed/30">
+    <div class="max-w-3xl mx-auto text-center px-margin-mobile">
+      <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-secondary-fixed mb-6">
+        Ingin melihat lebih jauh?
+      </h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant mb-10">
+        Temukan berbagai potensi alam, budaya, dan produk lokal yang menjadi kebanggaan Dusun Bedalo.
+      </p>
+      <Button variant="on-secondary" size="lg" href="/potensi">Jelajahi Potensi Dusun</Button>
+    </div>
+  </section>
+</PublicLayout>

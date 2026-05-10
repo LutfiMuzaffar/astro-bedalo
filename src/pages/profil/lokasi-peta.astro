@@ -1,0 +1,108 @@
+---
+import PublicLayout from '@layouts/PublicLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import MapIllustrationCard from '@components/sections/MapIllustrationCard.astro';
+import { IMG_MAP_COASTAL } from '@lib/images';
+
+const routes = [
+  { icon: 'directions_car', name: 'Dusun Bedalo', time: '± 45 Menit dari Wonosari', body: 'Pusat kebudayaan dan titik kumpul utama. Akses jalan aspal halus, dapat dilalui kendaraan roda empat hingga ke balai dusun.' },
+  { icon: 'two_wheeler', name: 'Pantai Ngedan', time: '± 55 Menit dari Wonosari', body: 'Pantai pasir putih menawan. Rute terakhir bergelombang, direkomendasikan menggunakan kendaraan roda dua untuk kenyamanan maksimal.' },
+  { icon: 'directions_car', name: 'Pantai Butuh', time: '± 60 Menit dari Wonosari', body: 'Akses searah dengan Pantai Ngedan. Terdapat jalan cor blok yang cukup sempit namun aman dilalui mobil dengan hati-hati.' },
+];
+
+const tips = [
+  { icon: 'sunny', title: 'Waktu Terbaik', body: 'Pagi hari (06:00 - 09:00) atau sore hari (15:00 - 17:30) untuk menghindari panas terik dan menikmati sunset.' },
+  { icon: 'local_parking', title: 'Area Parkir', body: 'Gunakan area parkir resmi yang dikelola warga setempat di dekat balai dusun atau pintu masuk pantai.' },
+  { icon: 'medical_services', title: 'Persiapan Fisik', body: 'Bawa obat-obatan pribadi dan bekal air minum yang cukup karena warung mungkin terbatas di area pantai tertentu.' },
+];
+
+const services = [
+  { icon: 'local_gas_station', title: 'SPBU Terdekat', body: 'Wonosari (± 40 Menit)' },
+  { icon: 'local_hospital', title: 'Puskesmas', body: 'Kecamatan Tepus (± 20 Menit)' },
+  { icon: 'storefront', title: 'Minimarket', body: 'Jalur Utama Tepus (± 15 Menit)' },
+  { icon: 'atm', title: 'ATM Center', body: 'Indomaret Tepus (± 15 Menit)' },
+];
+---
+<PublicLayout title="Lokasi & Peta Wisata - Dusun Bedalo" active="profil" mainClass="flex-grow pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-section-gap overflow-hidden">
+  <section class="flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
+      <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary-fixed">
+        Lokasi &amp; Peta Wisata
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+        Panduan rute menuju surga tersembunyi di pesisir selatan Gunungkidul. Temukan keindahan alam Dusun Bedalo dan sekitarnya.
+      </p>
+    </div>
+    <MapIllustrationCard
+      mapImage={IMG_MAP_COASTAL}
+      mapAlt="Peta wilayah Dusun Bedalo dan pantai-pantai sekitarnya."
+      pinLabel="Dusun Bedalo, Krambilsawit, Gunungkidul"
+      height="h-[400px] md:h-[600px]"
+    />
+  </section>
+
+  <section class="flex flex-col gap-12">
+    <h2 class="font-headline-md text-headline-md text-on-primary-fixed border-l-4 border-primary pl-4">Rute Destinasi</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {routes.map((r) => (
+        <div class="bg-surface-container-lowest rounded-[24px] p-8 flex flex-col gap-4 shadow-[0_4px_20px_-4px_rgba(2,62,138,0.05)] hover:-translate-y-1 transition-transform duration-300">
+          <div class="flex items-center gap-4 text-primary">
+            <div class="w-12 h-12 rounded-full bg-primary-fixed/30 flex items-center justify-center">
+              <Icon name={r.icon} />
+            </div>
+            <h3 class="font-headline-sm text-headline-sm text-on-primary-fixed">{r.name}</h3>
+          </div>
+          <div class="flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps uppercase">
+            <Icon name="schedule" size={16} />
+            <span>{r.time}</span>
+          </div>
+          <p class="text-on-surface-variant mt-2">{r.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-error-container/30 border border-error/20 rounded-[24px] p-6 md:p-8 flex items-start gap-4 shadow-[0_4px_12px_-4px_rgba(186,26,26,0.05)]">
+    <Icon name="warning" class="text-error text-3xl shrink-0 mt-1" />
+    <div class="flex flex-col gap-2">
+      <h3 class="font-headline-sm text-headline-sm text-on-error-container">Info Kondisi Jalan</h3>
+      <p class="text-on-surface-variant">
+        Jalan menuju area pantai cenderung sempit, menanjak, dan berkelok di beberapa titik. Harap berhati-hati, pastikan kondisi kendaraan prima, dan kurangi kecepatan saat berpapasan dengan kendaraan lain.
+      </p>
+    </div>
+  </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-gutter">
+    <section class="flex flex-col gap-8">
+      <h2 class="font-headline-md text-headline-md text-on-primary-fixed border-l-4 border-tertiary pl-4">Tips Perjalanan</h2>
+      <div class="flex flex-col gap-6">
+        {tips.map((t) => (
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-tertiary-fixed/50 flex items-center justify-center text-tertiary shrink-0">
+              <Icon name={t.icon} />
+            </div>
+            <div>
+              <h4 class="font-bold text-on-background">{t.title}</h4>
+              <p class="text-on-surface-variant text-sm mt-1">{t.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-8">
+      <h2 class="font-headline-md text-headline-md text-on-primary-fixed border-l-4 border-secondary pl-4">Titik Layanan Terdekat</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {services.map((s) => (
+          <div class="bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 shadow-sm border border-surface-variant/30">
+            <Icon name={s.icon} class="text-secondary text-2xl" />
+            <div>
+              <h4 class="font-bold text-on-background text-sm">{s.title}</h4>
+              <p class="text-on-surface-variant text-xs mt-1">{s.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</PublicLayout>

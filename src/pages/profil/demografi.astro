@@ -1,59 +1,66 @@
 ---
 import PublicLayout from '@layouts/PublicLayout.astro';
-import Breadcrumb from '@components/ui/Breadcrumb.astro';
+import Icon from '@components/ui/Icon.astro';
+
+const stats = [
+  { icon: 'groups', color: 'text-primary', label: 'Total Populasi', value: '1,245', unit: 'JIWA' },
+  { icon: 'home', color: 'text-secondary', label: 'Jumlah KK', value: '312', unit: 'KEPALA KELUARGA' },
+  { icon: 'map', color: 'text-tertiary', label: 'Jumlah RW', value: '2', unit: 'RUKUN WARGA' },
+  { icon: 'location_city', color: 'text-surface-tint', label: 'Jumlah RT', value: '6', unit: 'RUKUN TETANGGA' },
+];
+
+const rts = [
+  { name: 'RT 01', jiwa: 420, percent: 35 },
+  { name: 'RT 02', jiwa: 380, percent: 31 },
+  { name: 'RT 03', jiwa: 445, percent: 38 },
+];
 ---
-<PublicLayout title="Demografi Warga - Dusun Bedalo" active="profil">
-  <article class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-16">
-    <Breadcrumb
-      class="mb-6"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Profil', href: '/profil' },
-        { label: 'Demografi' },
-      ]}
-    />
-    <header class="space-y-4 mb-10">
-      <p class="font-label-caps text-label-caps text-primary">PROFIL WARGA</p>
-      <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface">Demografi Warga Bedalo</h1>
-      <p class="font-body-lg text-body-lg text-on-surface-variant">
-        Komposisi penduduk, mata pencaharian, dan komunitas adat di Dusun Bedalo per Sensus Dusun 2024.
-      </p>
-    </header>
+<PublicLayout title="Demografi - Dusun Bedalo" active="profil" mainClass="flex-grow pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full overflow-hidden">
+  <header class="mb-gutter max-w-3xl">
+    <h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-4">
+      Demografi Dusun Bedalo
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant">
+      Gambaran statistik kependudukan yang mencerminkan pertumbuhan dan keberagaman masyarakat kami yang harmonis, didukung oleh data terkini.
+    </p>
+  </header>
 
-    <div class="grid md:grid-cols-3 gap-4 mb-10">
-      <div class="bg-surface-container-lowest rounded-[24px] p-6">
-        <p class="font-label-caps text-on-surface-variant">JUMLAH PENDUDUK</p>
-        <p class="font-headline-md text-primary">1,240</p>
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-section-gap">
+    {stats.map((s) => (
+      <div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_8px_30px_-10px_rgba(2,62,138,0.06)] border border-surface-container flex flex-col justify-between">
+        <div class={`flex items-center gap-3 mb-4 ${s.color}`}>
+          <Icon name={s.icon} filled />
+          <h3 class="font-body-md text-body-md font-semibold text-on-surface-variant">{s.label}</h3>
+        </div>
+        <div>
+          <p class="font-display-lg-mobile text-display-lg-mobile text-on-surface mb-1">{s.value}</p>
+          <p class="font-label-caps text-label-caps text-on-surface-variant/70">{s.unit}</p>
+        </div>
       </div>
-      <div class="bg-surface-container-lowest rounded-[24px] p-6">
-        <p class="font-label-caps text-on-surface-variant">KEPALA KELUARGA</p>
-        <p class="font-headline-md text-primary">320</p>
-      </div>
-      <div class="bg-surface-container-lowest rounded-[24px] p-6">
-        <p class="font-label-caps text-on-surface-variant">USIA PRODUKTIF</p>
-        <p class="font-headline-md text-primary">62%</p>
-      </div>
-    </div>
+    ))}
+  </section>
 
-    <div class="prose prose-lg max-w-none space-y-4">
-      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Mata Pencaharian</h2>
-      <p class="text-body-lg text-on-surface-variant">
-        Mayoritas warga Bedalo bermata pencaharian sebagai petani palawija (38%), nelayan tradisional (24%),
-        pelaku UMKM dan kerajinan (18%), dan pekerja pariwisata (12%). Sisanya bekerja sebagai aparat
-        dusun, guru, tenaga kesehatan, dan pekerja lepas.
-      </p>
-      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Pendidikan</h2>
-      <p class="text-body-lg text-on-surface-variant">
-        Tingkat melek huruf dewasa di Bedalo mencapai 96%. Anak-anak usia sekolah dasar sebagian besar
-        bersekolah di SD Bedalo, sementara jenjang menengah ditempuh di Saptosari atau Wonosari.
-      </p>
-      <h2 class="font-headline-md text-headline-md text-on-surface mt-10 mb-4">Komunitas Adat &amp; Sosial</h2>
-      <ul class="list-disc pl-6 space-y-2 text-body-lg text-on-surface-variant">
-        <li>Karang Taruna Bedalo Bahari — pengelola wisata &amp; kebersihan pantai.</li>
-        <li>Kelompok Tani Wedang Lor — petani palawija dan kebun labu.</li>
-        <li>Pokdarwis Pesisir Lestari — pengelola jalur trekking dan pendampingan wisatawan.</li>
-        <li>PKK Bedalo — penggerak posyandu, dapur sehat, dan pelatihan UMKM.</li>
-      </ul>
+  <section class="bg-surface-container-lowest rounded-[32px] p-8 md:p-12 shadow-[0_10px_40px_-15px_rgba(2,62,138,0.08)] mb-gutter border border-surface-variant/50">
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-8">Sebaran Penduduk per RT</h2>
+    <div class="flex flex-col gap-6">
+      {rts.map((rt) => (
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-body-md text-body-md font-semibold text-on-surface">{rt.name}</span>
+            <span class="font-body-md text-body-md text-on-surface-variant">{rt.jiwa} Jiwa</span>
+          </div>
+          <div class="w-full bg-surface-container rounded-full h-4 overflow-hidden">
+            <div class="bg-primary-container h-full rounded-full" style={`width: ${rt.percent}%;`}></div>
+          </div>
+        </div>
+      ))}
     </div>
-  </article>
+  </section>
+
+  <section class="bg-secondary-fixed text-on-secondary-fixed rounded-2xl p-6 flex items-start md:items-center gap-4 shadow-sm">
+    <Icon name="info" filled class="text-on-secondary-fixed-variant" size={28} />
+    <p class="font-body-md text-body-md">
+      Data diperbarui per Sensus Dusun 2024. Statistik komposisi penduduk berdasarkan tingkat usia, mata pencaharian, dan tingkat pendidikan akan ditampilkan dalam visualisasi terpisah.
+    </p>
+  </section>
 </PublicLayout>

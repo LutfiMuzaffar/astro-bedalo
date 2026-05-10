@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import PublicLayout from '@layouts/PublicLayout.astro';
+import FilterChipBar from '@components/sections/FilterChipBar.astro';
+import FasilitasCard from '@components/cards/FasilitasCard.astro';
+
+const fasilitas = await getCollection('fasilitas');
+
+const filterItems = [
+  { key: 'semua', label: 'SEMUA' },
+  { key: 'pendidikan', label: 'PENDIDIKAN' },
+  { key: 'kesehatan', label: 'KESEHATAN' },
+  { key: 'ibadah', label: 'KEAGAMAAN' },
+  { key: 'olahraga', label: 'OLAHRAGA' },
+  { key: 'pemerintahan', label: 'PEMERINTAHAN' },
+];
+---
+<PublicLayout title="Fasilitas Umum - Dusun Bedalo" active="profil" mainClass="pt-[120px] pb-section-gap overflow-hidden">
+  <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-gutter">
+    <div class="max-w-3xl">
+      <h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-6">
+        Fasilitas Umum
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Menjelajahi infrastruktur publik dan ruang bersama yang mendukung kehidupan komunitas di Dusun Bedalo.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+    <FilterChipBar items={filterItems} active="semua" variant="pill" />
+  </section>
+
+  <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-section-gap">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+      {fasilitas.map((f) => (
+        <FasilitasCard
+          name={f.data.name}
+          type={f.data.type}
+          description={f.data.description}
+          photo={f.data.photo}
+          photoAlt={f.data.photoAlt}
+          address={f.data.address}
+        />
+      ))}
+    </div>
+  </section>
+</PublicLayout>
