@@ -1,0 +1,136 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import Button from '@components/ui/Button.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'on-secondary' | 'ghost' | 'primary';
+  icon?: string;
+}
+
+interface Photo {
+  src: string;
+  alt: string;
+  /** Tailwind position+size classes. Examples:
+   *  'top-0 right-0 w-[80%] h-[80%]'
+   *  'bottom-4 left-0 w-[60%] h-[50%]' */
+  position: string;
+  /** Tailwind transform classes, e.g. 'rotate-3' or '-rotate-6' */
+  rotate?: string;
+  rounded?: string;
+  border?: string;
+  shadow?: string;
+}
+
+interface OverlayBadge {
+  /** Tailwind absolute-position classes, e.g. 'top-10 left-10' */
+  position: string;
+  icon?: string;
+  iconBg?: string;
+  iconColor?: string;
+  title: string;
+  subtitle?: string;
+  animate?: boolean;
+}
+
+interface OverlayPill {
+  position: string;
+  label: string;
+  bg?: string;
+  textColor?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  eyebrowIcon?: string;
+  title: string;
+  titleHighlight?: string;
+  body: string;
+  ctas?: Cta[];
+  photos: Photo[];
+  overlayBadges?: OverlayBadge[];
+  overlayPills?: OverlayPill[];
+  collageHeight?: string;
+}
+
+const {
+  eyebrow,
+  eyebrowIcon,
+  title,
+  titleHighlight,
+  body,
+  ctas = [],
+  photos,
+  overlayBadges = [],
+  overlayPills = [],
+  collageHeight = 'h-[500px]',
+} = Astro.props;
+---
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24 grid md:grid-cols-2 gap-16 items-center">
+  <div class="space-y-8">
+    {eyebrow && (
+      <div class="inline-flex items-center gap-2 px-4 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-label-caps font-label-caps">
+        {eyebrowIcon && <Icon name={eyebrowIcon} size={16} />}
+        {eyebrow}
+      </div>
+    )}
+    <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg leading-tight text-on-surface">
+      {title}
+      {titleHighlight && <> <span class="text-primary">{titleHighlight}</span></>}
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">{body}</p>
+    {ctas.length > 0 && (
+      <div class="flex flex-wrap gap-4 pt-4">
+        {ctas.map((cta) => (
+          <Button
+            variant={cta.variant ?? 'on-secondary'}
+            size="lg"
+            href={cta.href}
+            icon={cta.icon}
+          >
+            {cta.label}
+          </Button>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <div class={`relative ${collageHeight}`}>
+    {photos.map((p) => (
+      <div
+        class={`absolute ${p.position} ${p.rounded ?? 'rounded-[48px]'} ${p.border ?? ''} ${p.shadow ?? 'shadow-xl'} ${p.rotate ? `transform ${p.rotate}` : ''} overflow-hidden`}
+      >
+        <img class="w-full h-full object-cover" src={p.src} alt={p.alt} />
+      </div>
+    ))}
+
+    {overlayBadges.map((b) => (
+      <div
+        class={`absolute ${b.position} bg-surface-container-lowest/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg flex items-center gap-3 ${b.animate ? 'animate-bounce' : ''}`}
+      >
+        {b.icon && (
+          <div class={`${b.iconBg ?? 'bg-secondary-container'} p-2 rounded-xl ${b.iconColor ?? 'text-on-secondary-fixed-variant'}`}>
+            <Icon name={b.icon} />
+          </div>
+        )}
+        <div>
+          <p class="text-label-caps font-bold text-on-surface">{b.title}</p>
+          {b.subtitle && <p class="text-[10px] text-on-surface-variant">{b.subtitle}</p>}
+        </div>
+      </div>
+    ))}
+
+    {overlayPills.length > 0 && (
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-2">
+        {overlayPills.map((p) => (
+          <span
+            class={`${p.bg ?? 'bg-primary/90'} ${p.textColor ?? 'text-white'} px-4 py-1 rounded-full text-label-caps text-[10px] shadow-sm ${p.position}`}
+          >
+            {p.label}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

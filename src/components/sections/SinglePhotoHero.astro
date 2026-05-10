@@ -1,0 +1,90 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import Button from '@components/ui/Button.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'on-secondary' | 'ghost' | 'primary';
+  icon?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  titleHighlight?: string;
+  body: string;
+  ctas?: Cta[];
+  photo: string;
+  photoAlt: string;
+  /** Optional corner badge ("Sejak 1900-an / Menjaga tradisi lintas generasi") */
+  cornerBadgeTitle?: string;
+  cornerBadgeBody?: string;
+  cornerBadgeIcon?: string;
+  /** 'profil' style uses min-h hero with flex layout. */
+  variant?: 'profil' | 'plain';
+}
+
+const {
+  eyebrow,
+  title,
+  titleHighlight,
+  body,
+  ctas = [],
+  photo,
+  photoAlt,
+  cornerBadgeTitle,
+  cornerBadgeBody,
+  cornerBadgeIcon,
+  variant = 'profil',
+} = Astro.props;
+
+const wrapperClass =
+  variant === 'profil'
+    ? 'pt-[140px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row gap-gutter items-center min-h-[819px]'
+    : 'max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16 md:py-24 grid md:grid-cols-2 gap-16 items-center';
+---
+<header class={wrapperClass}>
+  <div class="flex-1 space-y-6 md:pr-12">
+    {eyebrow && (
+      <span class="inline-block bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps px-3 py-1.5 rounded-[8px] uppercase tracking-wider">
+        {eyebrow}
+      </span>
+    )}
+    <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">
+      {title}
+      {titleHighlight && <> <span class="text-primary">{titleHighlight}</span></>}
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">{body}</p>
+    {ctas.length > 0 && (
+      <div class="flex flex-wrap gap-4 pt-4">
+        {ctas.map((cta) => (
+          <Button
+            variant={cta.variant ?? 'on-secondary'}
+            size="lg"
+            href={cta.href}
+            icon={cta.icon}
+          >
+            {cta.label}
+          </Button>
+        ))}
+      </div>
+    )}
+  </div>
+  <div class="flex-1 w-full relative">
+    <div class="aspect-[4/3] rounded-[24px] overflow-hidden shadow-[0_8px_30px_-4px_rgba(2,62,138,0.12)]">
+      <img class="w-full h-full object-cover" src={photo} alt={photoAlt} />
+    </div>
+    {cornerBadgeTitle && (
+      <div class="absolute -bottom-6 -left-6 bg-surface-container-lowest p-6 rounded-[24px] shadow-[0_4px_20px_-4px_rgba(2,62,138,0.08)] max-w-[240px]">
+        {cornerBadgeIcon && (
+          <Icon name={cornerBadgeIcon} class="text-primary mb-2" size={28} />
+        )}
+        <p class="font-headline-sm text-headline-sm text-primary mb-1">{cornerBadgeTitle}</p>
+        {cornerBadgeBody && (
+          <p class="font-body-md text-body-md text-on-surface-variant">{cornerBadgeBody}</p>
+        )}
+      </div>
+    )}
+  </div>
+</header>

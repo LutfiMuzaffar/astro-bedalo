@@ -14,6 +14,7 @@ interface Props {
   showMobileNav?: boolean;
   mainClass?: string;
   ogImage?: string;
+  noIndex?: boolean;
 }
 
 const {
@@ -25,9 +26,10 @@ const {
   showMobileNav = false,
   mainClass = 'pt-24 overflow-hidden',
   ogImage,
+  noIndex = false,
 } = Astro.props;
 ---
-<BaseLayout title={title} description={description} bodyClass={bodyClass} ogImage={ogImage}>
+<BaseLayout title={title} description={description} bodyClass={bodyClass} ogImage={ogImage} noIndex={noIndex}>
   <TopNav active={active} />
   <main class={mainClass}>
     <slot />

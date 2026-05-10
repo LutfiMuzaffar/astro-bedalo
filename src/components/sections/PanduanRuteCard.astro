@@ -1,0 +1,31 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Route {
+  icon: string;
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  routes: Route[];
+  title?: string;
+  class?: string;
+}
+
+const { routes, title = 'PANDUAN RUTE LOKASI', class: className = '' } = Astro.props;
+---
+<div class={`bg-surface-container-lowest p-6 rounded-[24px] shadow-[0_4px_20px_-4px_rgba(2,62,138,0.05)] border border-surface-container ${className}`.trim()}>
+  <h3 class="font-label-caps text-label-caps text-outline mb-4">{title}</h3>
+  <div class="grid grid-cols-2 gap-4">
+    {routes.map((r) => (
+      <a
+        href={r.href ?? '#'}
+        class="flex items-center gap-2 px-4 py-3 bg-surface-container-low hover:bg-primary-fixed hover:text-on-primary-fixed rounded-xl transition-colors text-on-surface-variant font-body-md text-body-md text-left"
+      >
+        <Icon name={r.icon} class="text-primary" />
+        <span>{r.label}</span>
+      </a>
+    ))}
+  </div>
+</div>

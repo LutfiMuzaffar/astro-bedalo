@@ -1,0 +1,72 @@
+---
+interface ChipItem {
+  key: string;
+  label: string;
+  count?: number;
+  href?: string;
+}
+
+interface Props {
+  items: ChipItem[];
+  active?: string;
+  /** When set, items without href fall back to `${baseHref}/${key}` (`semua` → `baseHref`). */
+  baseHref?: string;
+  /** 'pill' = source rounded-full pill style. 'underline' = thin tab variant. */
+  variant?: 'pill' | 'underline';
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  items,
+  active,
+  baseHref,
+  variant = 'pill',
+  class: className = '',
+  ariaLabel = 'Filter kategori',
+} = Astro.props;
+---
+<nav class={`flex flex-wrap gap-3 ${className}`.trim()} aria-label={ariaLabel}>
+  {items.map((item) => {
+    const isActive = item.key === active;
+    const href = item.href ?? (baseHref ? (item.key === 'semua' ? baseHref : `${baseHref}/${item.key}`) : '#');
+
+    if (variant === 'underline') {
+      return (
+        <a
+          href={href}
+          class={`inline-flex items-center gap-2 pb-2 border-b-2 transition-colors text-body-md ${
+            isActive
+              ? 'border-primary text-primary font-bold'
+              : 'border-transparent text-on-surface-variant hover:text-primary'
+          }`}
+        >
+          <span>{item.label}</span>
+          {typeof item.count === 'number' && (
+            <span class={`text-[11px] ${isActive ? 'text-primary' : 'text-on-surface-variant'}`}>
+              ({item.count})
+            </span>
+          )}
+        </a>
+      );
+    }
+
+    return (
+      <a
+        href={href}
+        class={`px-6 py-2 rounded-full font-label-caps text-label-caps tracking-wider transition-all shadow-sm inline-flex items-center gap-2 ${
+          isActive
+            ? 'bg-primary text-on-primary'
+            : 'bg-surface-container-low text-on-surface-variant hover:bg-primary-container/20 hover:text-primary'
+        }`}
+      >
+        <span>{item.label}</span>
+        {typeof item.count === 'number' && (
+          <span class={`text-[11px] px-2 py-0.5 rounded-full ${isActive ? 'bg-on-primary/20 text-on-primary' : 'bg-surface-container-high text-on-surface-variant'}`}>
+            {item.count}
+          </span>
+        )}
+      </a>
+    );
+  })}
+</nav>

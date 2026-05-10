@@ -1,0 +1,39 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface StatItem {
+  value: string;
+  label: string;
+  icon: string;
+  /** Tailwind text color class, e.g. 'text-primary'. Cycles primary/tertiary/secondary by default. */
+  iconColor?: string;
+}
+
+interface Props {
+  items: StatItem[];
+  variant?: 'plain' | 'gradient';
+  class?: string;
+}
+
+const { items, variant = 'plain', class: className = '' } = Astro.props;
+
+const defaultColors = ['text-primary', 'text-tertiary', 'text-secondary'];
+const cardClass =
+  variant === 'gradient'
+    ? 'bg-gradient-to-br from-primary-fixed/40 to-secondary-container/30 p-8 rounded-2xl ambient-shadow flex flex-col items-center text-center'
+    : 'bg-surface-container-lowest p-8 rounded-2xl ambient-shadow flex flex-col items-center text-center border border-surface-container/50';
+---
+<div class={`grid grid-cols-1 md:grid-cols-${items.length} gap-6 md:gap-gutter ${className}`.trim()}>
+  {items.map((item, i) => (
+    <div class={cardClass}>
+      <Icon
+        name={item.icon}
+        filled
+        size={36}
+        class={`${item.iconColor ?? defaultColors[i % defaultColors.length]} mb-4`}
+      />
+      <h3 class="font-display-lg-mobile text-display-lg-mobile text-on-surface mb-2">{item.value}</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">{item.label}</p>
+    </div>
+  ))}
+</div>

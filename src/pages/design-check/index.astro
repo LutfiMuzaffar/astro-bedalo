@@ -1,0 +1,243 @@
+---
+// Design QA route. Excluded from sitemap and noindex'd.
+// Renders one example of each Phase B component for visual review.
+import PublicLayout from '@layouts/PublicLayout.astro';
+import NakedHero from '@components/sections/NakedHero.astro';
+import PhotoCollageHero from '@components/sections/PhotoCollageHero.astro';
+import SinglePhotoHero from '@components/sections/SinglePhotoHero.astro';
+import FilterChipBar from '@components/sections/FilterChipBar.astro';
+import BentoPotensiGrid from '@components/sections/BentoPotensiGrid.astro';
+import MapIllustrationCard from '@components/sections/MapIllustrationCard.astro';
+import PanduanRuteCard from '@components/sections/PanduanRuteCard.astro';
+import StatTrioCard from '@components/sections/StatTrioCard.astro';
+import SocialPlatformCard from '@components/cards/SocialPlatformCard.astro';
+import KelompokCoverCard from '@components/cards/KelompokCoverCard.astro';
+import KelompokHeaderCard from '@components/cards/KelompokHeaderCard.astro';
+import {
+  IMG_COASTAL_AERIAL,
+  IMG_BEACH_BOATS,
+  IMG_VILLAGE_AERIAL,
+  IMG_BEACH_HIDDEN,
+  IMG_HANDICRAFT,
+  IMG_FARMING,
+  IMG_GROUP_PORTRAIT,
+} from '@lib/images';
+
+const STITCH_MAP = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&auto=format&fit=crop&q=80';
+---
+<PublicLayout title="Design Check (Phase B Components)" active="home" noIndex={true}>
+  <NakedHero
+    eyebrow="Design QA"
+    title="Phase B Components"
+    titleHighlight="Catalog"
+    body="One instance of every component added in Phase B, rendered against real layout context for side-by-side QA against the Stitch source."
+  />
+
+  <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 space-y-section-gap">
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">PhotoCollageHero (homepage style)</h2>
+      <PhotoCollageHero
+        eyebrow="EXPLORE GUNUNGKIDUL"
+        eyebrowIcon="waves"
+        title="Selamat Datang di"
+        titleHighlight="Dusun Bedalo"
+        body="Dusun pesisir nan asri di Krambilsawit, Saptosari, Gunungkidul, di mana tradisi dan keindahan alam berpadu."
+        ctas={[
+          { label: 'Jelajahi Potensi', href: '/potensi/', variant: 'on-secondary', icon: 'arrow_forward' },
+          { label: 'Lihat Berita Terbaru', href: '/berita/', variant: 'ghost' },
+        ]}
+        photos={[
+          {
+            src: IMG_COASTAL_AERIAL,
+            alt: 'Pesisir Gunungkidul aerial.',
+            position: 'top-0 right-0 w-[80%] h-[80%]',
+            rotate: 'rotate-3',
+            rounded: 'rounded-[48px]',
+          },
+          {
+            src: IMG_BEACH_BOATS,
+            alt: 'Perahu nelayan kayu di pasir.',
+            position: 'bottom-4 left-0 w-[60%] h-[50%]',
+            rotate: '-rotate-6',
+            rounded: 'rounded-[32px]',
+            border: 'border-8 border-surface-bright',
+            shadow: 'shadow-2xl',
+          },
+        ]}
+        overlayBadges={[
+          {
+            position: 'top-10 left-10',
+            icon: 'beach_access',
+            iconBg: 'bg-secondary-container',
+            iconColor: 'text-on-secondary-fixed-variant',
+            title: 'Pesisir Selatan',
+            subtitle: 'Gunungkidul Regency',
+            animate: true,
+          },
+          {
+            position: 'bottom-20 right-0',
+            icon: 'home_work',
+            iconBg: 'bg-tertiary-container',
+            iconColor: 'text-on-tertiary-container',
+            title: '4 Pantai',
+            subtitle: 'Wisata Alam Eksotis',
+          },
+        ]}
+        overlayPills={[
+          { position: '', label: 'UMKM Lokal', bg: 'bg-primary/90' },
+          { position: 'ml-4', label: 'Budaya Warga', bg: 'bg-on-secondary-container/90' },
+        ]}
+      />
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">SinglePhotoHero (profil style)</h2>
+      <SinglePhotoHero
+        eyebrow="Mengenal Desa Kami"
+        title="Profil Dusun"
+        titleHighlight="Bedalo"
+        body="Menelusuri jejak warisan pesisir, kehidupan agraris yang harmonis, dan kearifan lokal yang mengakar kuat di selatan Gunungkidul."
+        photo={IMG_VILLAGE_AERIAL}
+        photoAlt="Aerial dusun pesisir."
+        cornerBadgeTitle="Sejak 1900-an"
+        cornerBadgeBody="Menjaga tradisi lintas generasi."
+        variant="plain"
+      />
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">FilterChipBar (pill variant)</h2>
+      <FilterChipBar
+        items={[
+          { key: 'semua', label: 'Semua' },
+          { key: 'wisata-alam', label: 'Wisata Alam' },
+          { key: 'umkm', label: 'UMKM' },
+          { key: 'pertanian', label: 'Pertanian' },
+          { key: 'peternakan', label: 'Peternakan' },
+          { key: 'kuliner', label: 'Kuliner' },
+          { key: 'seni-budaya', label: 'Seni Budaya' },
+          { key: 'pemuda', label: 'Pemuda' },
+        ]}
+        active="semua"
+      />
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">BentoPotensiGrid</h2>
+      <BentoPotensiGrid
+        featured={{
+          href: '/potensi/wisata/pantai-ngedan/',
+          badge: 'Wisata Alam',
+          title: 'Pantai Ngedan',
+          body: 'Pesona pantai tersembunyi dengan pasir putih dan ombak tenang.',
+          cover: IMG_BEACH_HIDDEN,
+        }}
+        medium={{
+          href: '/potensi/umkm/',
+          badge: 'UMKM',
+          title: 'Kerajinan Lokal & Produk Unggulan',
+          body: 'Mendukung kreativitas masyarakat melalui berbagai produk kerajinan tangan dan olahan lokal berkualitas tinggi.',
+          cover: IMG_HANDICRAFT,
+        }}
+        mediumSecondary={{
+          href: '/potensi/pertanian/',
+          badge: 'Pertanian',
+          title: 'Potensi Agrikultur',
+          body: 'Lahan subur yang menghasilkan ragam komoditas pertanian penopang ekonomi warga.',
+          cover: IMG_FARMING,
+        }}
+        small={[
+          { icon: 'music_note', badge: 'Seni Budaya', title: 'Karawitan', href: '/potensi/seni-budaya/' },
+          { icon: 'restaurant', badge: 'Kuliner', title: 'Kuliner Lokal', href: '/potensi/kuliner/' },
+          { icon: 'pets', badge: 'Peternakan', title: 'Sentra Ternak', href: '/potensi/peternakan/' },
+        ]}
+      />
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">MapIllustrationCard + PanduanRuteCard</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <MapIllustrationCard
+          mapImage={STITCH_MAP}
+          mapAlt="Peta Dusun Bedalo"
+          pinLabel="Balai Dusun Bedalo, Gunungkidul"
+        />
+        <PanduanRuteCard
+          routes={[
+            { icon: 'directions_car', label: 'Dusun Bedalo' },
+            { icon: 'beach_access', label: 'Pantai Ngedan' },
+            { icon: 'account_balance', label: 'Balai Padukuhan' },
+            { icon: 'storefront', label: 'Sentra UMKM' },
+          ]}
+        />
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">StatTrioCard</h2>
+      <StatTrioCard
+        items={[
+          { value: '24', label: 'Total Kelompok KKN', icon: 'groups', iconColor: 'text-primary' },
+          { value: '10+', label: 'Tahun Pengabdian', icon: 'calendar_month', iconColor: 'text-tertiary' },
+          { value: '150+', label: 'Program Kerja Selesai', icon: 'task_alt', iconColor: 'text-secondary' },
+        ]}
+      />
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">SocialPlatformCard (6 platforms)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <SocialPlatformCard platform="Instagram" handle="@dusunbedalo" icon="photo_camera" iconColor="text-primary" ctaLabel="Ikuti" ctaVariant="filled" />
+        <SocialPlatformCard platform="YouTube" handle="Dusun Bedalo Official" icon="play_circle" iconColor="text-error" ctaLabel="Subscribe" ctaVariant="outline" />
+        <SocialPlatformCard platform="TikTok" handle="@dusunbedalo" icon="music_note" iconColor="text-on-surface" ctaLabel="Ikuti" ctaVariant="filled" />
+        <SocialPlatformCard platform="Facebook" handle="Dusun Bedalo" icon="public" iconColor="text-secondary" ctaLabel="Ikuti" ctaVariant="outline" />
+        <SocialPlatformCard platform="WhatsApp" handle="Layanan Cepat Warga" icon="chat" iconColor="text-[#25D366]" ctaLabel="Hubungi" ctaVariant="filled" />
+        <SocialPlatformCard platform="Email" handle="info@bedalo.id" icon="mail" iconColor="text-tertiary" ctaLabel="Email Kami" ctaVariant="outline" />
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">KelompokCoverCard</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <KelompokCoverCard
+          href="/kkn/kelompok/sample/"
+          cover={IMG_GROUP_PORTRAIT}
+          coverAlt="Foto kelompok KKN."
+          klpBadge="KLP 102"
+          universitas="Universitas Gadjah Mada"
+          semester="Semester Gasal 2023/2024"
+          anggotaCount={15}
+          prokerCount={8}
+        />
+        <KelompokCoverCard
+          href="/kkn/kelompok/sample-2/"
+          cover={IMG_GROUP_PORTRAIT}
+          coverAlt="Foto kelompok KKN."
+          klpBadge="KLP 45"
+          universitas="Universitas Negeri Yogyakarta"
+          semester="Semester Genap 2023/2024"
+          anggotaCount={12}
+          prokerCount={6}
+        />
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-6">KelompokHeaderCard</h2>
+      <KelompokHeaderCard
+        cover={IMG_GROUP_PORTRAIT}
+        coverAlt="Foto kelompok KKN 129."
+        title="KKN Reguler Angkatan 117 UIN Sunan Kalijaga Yogyakarta"
+        subtitle="Kelompok 129 — Dusun Bedalo"
+        meta={[
+          { label: 'Lokasi', value: 'Dusun Bedalo, Krambilsawit, Saptosari, Gunungkidul' },
+          { label: 'Periode', value: 'Juli - Agustus 2024' },
+          { label: 'Anggota', value: '9 Mahasiswa' },
+          { label: 'Total Program', value: '24 Proker Selesai' },
+        ]}
+      />
+    </div>
+
+  </section>
+</PublicLayout>

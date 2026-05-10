@@ -1,0 +1,43 @@
+---
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  platform: string;
+  handle: string;
+  icon: string;
+  /** Tailwind class for icon color, e.g. 'text-primary', 'text-error', 'text-[#25D366]'. */
+  iconColor?: string;
+  ctaLabel: string;
+  ctaHref?: string;
+  /** 'filled' = primary bg button, 'outline' = bordered button. */
+  ctaVariant?: 'filled' | 'outline';
+}
+
+const {
+  platform,
+  handle,
+  icon,
+  iconColor = 'text-primary',
+  ctaLabel,
+  ctaHref = '#',
+  ctaVariant = 'filled',
+} = Astro.props;
+
+const ctaClass =
+  ctaVariant === 'filled'
+    ? 'bg-primary text-on-primary hover:bg-on-primary-fixed-variant'
+    : 'bg-surface text-primary border border-primary/30 hover:bg-primary hover:text-on-primary';
+---
+<div class="bg-surface-container-lowest rounded-[24px] p-8 shadow-[0_4px_20px_-4px_rgba(2,62,138,0.05)] border border-surface-container-high hover:shadow-[0_8px_30px_-4px_rgba(2,62,138,0.08)] transition-all duration-300 flex flex-col items-center text-center group">
+  <div class={`w-16 h-16 rounded-full bg-surface-container flex items-center justify-center ${iconColor} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+    <Icon name={icon} filled size={32} />
+  </div>
+  <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">{platform}</h3>
+  <p class="font-body-md text-body-md text-on-surface-variant mb-6">{handle}</p>
+  <a
+    href={ctaHref}
+    class={`w-full py-3 px-6 rounded-full font-body-md text-body-md transition-colors mt-auto inline-block text-center ${ctaClass}`}
+  >
+    {ctaLabel}
+  </a>
+</div>
